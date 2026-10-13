@@ -1,0 +1,7 @@
+# PDF text extraction / local tooling
+doc/_tmp_pdf/
+doc/_extracted/
+doc/_extracted2/
+**/node_modules/
+.DS_Store
+Thumbs.db
