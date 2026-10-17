@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<style>
+  :root{--accent:#FF5B1F;--ink:#1B1B1B;--sub:#8A8A8A;--line:#EDEAE2;--paper:#F5F3EE;--ok:#2BB673;--wash:#FFF0E8;--sand:#EAE6DD;}
+  *{box-sizing:border-box;margin:0;padding:0;font-family:"Malgun Gothic","Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;}
+  html,body{width:900px;background:var(--paper);}
+  .card{width:860px;margin:20px;background:#fff;border-radius:22px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.12);}
+  .bar{height:8px;background:var(--accent);}
+  .pad{padding:24px 30px;}
+  /* header */
+  .hd{display:flex;align-items:center;}
+  .hd .logo{font-size:20px;font-weight:800;} .hd .logo b{color:var(--accent);}
+  .hd .meta{margin-left:auto;text-align:right;}
+  .hd .meta .t{font-size:13px;font-weight:800;letter-spacing:1px;color:var(--accent);}
+  .hd .meta .d{font-size:12px;color:var(--sub);margin-top:2px;}
+  /* hero */
+  .hero{position:relative;height:300px;margin:4px 30px 0;border-radius:16px;overflow:hidden;}
+  .hero img{width:100%;height:100%;object-fit:cover;}
+  .hero .badge{position:absolute;top:16px;left:16px;background:var(--accent);color:#fff;font-size:13px;font-weight:800;padding:5px 12px;border-radius:8px;}
+  .hero .cap{position:absolute;bottom:0;left:0;right:0;padding:40px 20px 16px;background:linear-gradient(transparent,rgba(0,0,0,.72));color:#fff;}
+  .hero .cap .n{font-size:26px;font-weight:800;}
+  .hero .cap .s{font-size:13px;opacity:.9;margin-top:2px;}
+  /* stats */
+  .stats{display:flex;gap:12px;}
+  .stat{flex:1;background:var(--paper);border-radius:14px;padding:16px 10px;text-align:center;}
+  .stat .v{font-size:22px;font-weight:800;} .stat .v.ac{color:var(--accent);}
+  .stat .l{font-size:11px;color:var(--sub);margin-top:4px;}
+  /* section */
+  .sec{margin-top:6px;}
+  .sh{display:flex;align-items:center;margin-bottom:12px;}
+  .sh .t{font-size:16px;font-weight:800;}
+  .sh .tag{margin-left:auto;font-size:11px;color:var(--sub);}
+  /* adaptation chart */
+  .chart{display:flex;align-items:flex-end;gap:16px;height:150px;padding:0 6px;}
+  .day{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;}
+  .day .col{width:70%;background:var(--sand);border-radius:7px 7px 0 0;position:relative;display:flex;align-items:flex-start;justify-content:center;}
+  .day .col.act{background:var(--accent);}
+  .day .pct{position:absolute;top:-20px;font-size:12px;font-weight:800;color:var(--ink);}
+  .day .lab{font-size:12px;color:var(--sub);margin-top:8px;}
+  .note{background:var(--wash);border-radius:12px;padding:12px 15px;font-size:13px;color:#8A4A2E;margin-top:14px;}
+  .note b{color:var(--accent);}
+  /* chips */
+  .chips{display:flex;flex-wrap:wrap;gap:10px;}
+  .chip{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:8px 16px;font-size:14px;font-weight:700;}
+  .chip .ic{color:var(--accent);margin-right:5px;}
+  /* highlights */
+  .thumbs{display:flex;gap:12px;}
+  .th{flex:1;position:relative;height:120px;border-radius:12px;overflow:hidden;}
+  .th img{width:100%;height:100%;object-fit:cover;filter:brightness(.85);}
+  .th .play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:14px;padding-left:2px;}
+  .th .t{position:absolute;bottom:8px;left:10px;color:#fff;font-size:12px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,.6);}
+  /* care log */
+  .log{display:grid;grid-template-columns:1fr 1fr;gap:10px 28px;}
+  .lr{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);}
+  .lr .ic{width:34px;height:34px;border-radius:10px;background:var(--wash);display:flex;align-items:center;justify-content:center;font-size:16px;flex:none;}
+  .lr .c{flex:1;} .lr .c .ti{font-size:13px;font-weight:700;} .lr .c .de{font-size:11px;color:var(--sub);}
+  .lr .v{font-size:14px;font-weight:800;color:var(--accent);}
+  /* comment */
+  .quote{background:var(--ink);color:#fff;border-radius:16px;padding:18px 22px;}
+  .quote .q{font-size:15px;line-height:1.6;}
+  .quote .by{font-size:12px;color:#B8B8B8;margin-top:10px;}
+  /* footer */
+  .foot{display:flex;align-items:center;gap:12px;margin-top:4px;}
+  .foot .tip{flex:1;font-size:13px;color:var(--ink);}
+  .foot .tip b{color:var(--accent);}
+  .foot .share{display:flex;gap:8px;}
+  .foot .sb{background:var(--accent);color:#fff;font-size:13px;font-weight:700;padding:10px 18px;border-radius:10px;}
+  .foot .sb.s{background:var(--paper);color:var(--ink);border:1px solid var(--line);}
+  .fine{text-align:center;font-size:11px;color:var(--sub);padding:14px 0 20px;}
+  .hr{height:1px;background:var(--line);margin:18px 0;}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="bar"></div>
+  <div class="pad hd">
+    <div class="logo">PET<b>-Aeye</b></div>
+    <div class="meta"><div class="t">STAY 졸업 리포트</div><div class="d">파우코리아 펫호텔 영종 · 2026.05.11–05.14</div></div>
+  </div>
+  <div class="hero">
+    <img src="file:///C:/Users/kurtk/.cursor/projects/d-dev-pawkorea-pet-teamjang/assets/cam_room_rest.jpg">
+    <div class="badge">3박 4일 · 졸업 🎓</div>
+    <div class="cap"><div class="n">초코</div><div class="s">리트리버 · 3F-201 대형룸 · 체중 28.4kg</div></div>
+  </div>
+  <div class="pad">
+    <div class="stats">
+      <div class="stat"><div class="v">14.2km</div><div class="l">총 활동 거리</div></div>
+      <div class="stat"><div class="v ac">8회</div><div class="l">산책 · 플레이</div></div>
+      <div class="stat"><div class="v">양호</div><div class="l">평균 수면</div></div>
+      <div class="stat"><div class="v">92</div><div class="l">안정도 지수</div></div>
+    </div>
+
+    <div class="hr"></div>
+    <div class="sec">
+      <div class="sh"><div class="t">적응 곡선</div><div class="tag">일자별 안정도</div></div>
+      <div class="chart">
+        <div class="day"><div class="col" style="height:52%"><span class="pct">58</span></div><div class="lab">1일차</div></div>
+        <div class="day"><div class="col" style="height:68%"><span class="pct">72</span></div><div class="lab">2일차</div></div>
+        <div class="day"><div class="col act" style="height:82%"><span class="pct">85</span></div><div class="lab">3일차</div></div>
+        <div class="day"><div class="col act" style="height:90%"><span class="pct">92</span></div><div class="lab">4일차</div></div>
+      </div>
+      <div class="note">첫날엔 조금 긴장했지만, <b>둘째 날부터 빠르게 안정</b>을 찾았어요. 야간 수면도 점점 깊어졌습니다.</div>
+    </div>
+
+    <div class="hr"></div>
+    <div class="sec">
+      <div class="sh"><div class="t">행동 프로파일</div><div class="tag">투숙 영상 분석</div></div>
+      <div class="chips">
+        <div class="chip"><span class="ic">●</span>차분한 편</div>
+        <div class="chip"><span class="ic">●</span>사교적</div>
+        <div class="chip"><span class="ic">●</span>분리불안 낮음</div>
+        <div class="chip"><span class="ic">●</span>식욕 좋음</div>
+        <div class="chip"><span class="ic">●</span>산책 선호</div>
+      </div>
+    </div>
+
+    <div class="hr"></div>
+    <div class="sec">
+      <div class="sh"><div class="t">하이라이트</div><div class="tag">3개 클립</div></div>
+      <div class="thumbs">
+        <div class="th"><img src="file:///C:/Users/kurtk/.cursor/projects/d-dev-pawkorea-pet-teamjang/assets/cam_room_walk.jpg"><div class="play">▶</div><div class="t">첫 산책 0:14</div></div>
+        <div class="th"><img src="file:///C:/Users/kurtk/.cursor/projects/d-dev-pawkorea-pet-teamjang/assets/cam_room_rest.jpg"><div class="play">▶</div><div class="t">낮잠 타임 0:08</div></div>
+        <div class="th"><img src="file:///C:/Users/kurtk/.cursor/projects/d-dev-pawkorea-pet-teamjang/assets/cam_room_night.jpg"><div class="play">▶</div><div class="t">야간 숙면 0:10</div></div>
+      </div>
+    </div>
+
+    <div class="hr"></div>
+    <div class="sec">
+      <div class="sh"><div class="t">케어 로그 종합</div></div>
+      <div class="log">
+        <div class="lr"><div class="ic">🍚</div><div class="c"><div class="ti">급식</div><div class="de">총 8회 · 남김 거의 없음</div></div><div class="v">100%</div></div>
+        <div class="lr"><div class="ic">🦮</div><div class="c"><div class="ti">산책 · 놀이</div><div class="de">하루 2회 · 플레이존</div></div><div class="v">8회</div></div>
+        <div class="lr"><div class="ic">💩</div><div class="c"><div class="ti">배변</div><div class="de">규칙적 · 이상 없음</div></div><div class="v">정상</div></div>
+        <div class="lr"><div class="ic">💊</div><div class="c"><div class="ti">투약</div><div class="de">관절 영양제 · 저녁</div></div><div class="v">완료</div></div>
+      </div>
+    </div>
+
+    <div class="hr"></div>
+    <div class="quote">
+      <div class="q">“초코는 낯가림 없이 금방 적응했어요. 공놀이를 가장 좋아했고, 간식 반응도 아주 좋았습니다. 다음에도 편하게 맡겨 주세요!”</div>
+      <div class="by">— 담당 케어매니저 김현아</div>
+    </div>
+
+    <div class="hr"></div>
+    <div class="foot">
+      <div class="tip"><b>다음 방문 팁</b> · 적응이 빠른 편이라 당일 체크인도 무리 없어요. 관절 영양제는 계속 챙겨 주세요.</div>
+      <div class="share"><div class="sb">공유하기</div><div class="sb s">PDF 저장</div></div>
+    </div>
+  </div>
+  <div class="fine">본 리포트는 구성 예시입니다 · 행동 수치는 검증된 지표를 중심으로 제공되며 의료 진단이 아닙니다 · PET-Aeye</div>
+</div>
+</body>
+</html>

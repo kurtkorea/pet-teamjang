@@ -2,6 +2,11 @@
 doc/_tmp_pdf/
 doc/_extracted/
 doc/_extracted2/
+# render / verification scratch
+doc/_chk/
+doc/_check/
+doc/_chk.py
+doc/_chk2.py
 **/node_modules/
 .DS_Store
 Thumbs.db
