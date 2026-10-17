@@ -30,7 +30,7 @@ CW = 11.93
 FONT = "Malgun Gothic"
 
 # ── 문서 버전 관리 ─────────────────────────────────────────────
-VERSION = "1.1"          # 버전 올릴 때 여기만 수정 (커버 · 파일명 자동 반영)
+VERSION = "1.2"          # 버전 올릴 때 여기만 수정 (커버 · 파일명 자동 반영)
 DOC_DATE = "2026.10"     # 표기용 발행 월
 # ──────────────────────────────────────────────────────────────
 OUT = rf"D:\dev_pawkorea\pet-teamjang\doc\PLAN_PAWKOREA_pet_hotel_PET-Aeye_master_v{VERSION}.pptx"
@@ -60,6 +60,7 @@ EXTRA_LINES = [
     ("가든카페 · 독파크", (1.3, 2.0, 3.0)),
     ("이벤트 · 대관", (0.4, 0.8, 1.5)),
     ("공항 원스톱 주차", (0.5, 1.0, 1.8)),
+    ("하드웨어 구독 · B2B 납품", (0.3, 0.8, 2.0)),
 ]
 
 
@@ -238,7 +239,7 @@ def build():
         ],
     )
     hline(s, MX, 5.55, CW, INK, 0.02)
-    facts = [(f"{total_rooms}실", "4개 타입 위탁 객실"), ("1동 4층", "공사 완료 · 오픈 준비"), ("PET-Aeye", "실시간 AI 관제 솔루션"), ("SaaS", "타 펫호텔 확장")]
+    facts = [(f"{total_rooms}실", "4개 타입 위탁 객실"), ("2개동 캠퍼스", "본관 호텔 · 별관 생활권"), ("PET-Aeye", "실시간 AI 관제 솔루션"), ("SaaS", "타 펫호텔 확장")]
     for i, (v, lab) in enumerate(facts):
         text(s, MX + i * 3.0, 5.8, 2.8, 0.5, [(v, 22, INK, True, 2), (lab, 12, GRAY, False)])
 
@@ -1093,8 +1094,8 @@ def build():
     cols = [("사업 부문", 3.1), ("보수", 0.95), ("기준", 0.95), ("공격", 0.95)]
     rows = [(name, f"{v[0]:.1f}", f"{v[1]:.1f}", f"{v[2]:.1f}") for name, v in pf_lines]
     rows.append(("합계 (억 원)", f"{pf_totals[0]:.1f}", f"{pf_totals[1]:.1f}", f"{pf_totals[2]:.1f}"))
-    table(s, 6.6, 1.9, cols, rows, 0.44, body=11, head_gap=0.4)
-    text(s, 6.6, 6.5, 5.95, 0.6, [("* 미용은 위탁 RS 30%(위탁사 70%) · 동물병원은 임대+제휴 수수료 · 리테일은 매출 기준(마진 별도).", 9, GRAY, False)])
+    table(s, 6.6, 1.9, cols, rows, 0.4, body=10, head_gap=0.4)
+    text(s, 6.6, 6.55, 5.95, 0.6, [("* 미용은 위탁 RS 30% · 동물병원은 임대+제휴 · 하드웨어는 구독+B2B(양산 후) · 리테일은 매출 기준(마진 별도).", 9, GRAY, False)])
 
     # 인력 · 고정비
     page += 1
@@ -1206,6 +1207,80 @@ def build():
     ]
     table(s, MX, 4.3, cols, rows, 0.6, body=12)
     text(s, MX, 6.5, 11.9, 0.3, [("가장 강한 영업 도구는 영종 현장입니다. 보호자 동의를 받은 화면만 사용합니다.", 10, GRAY, False)])
+
+    # 하드웨어 제품화 · B2B
+    page += 1
+    s = new_slide(prs)
+    frame(s, page, "HARDWARE × B2B", "바이탈 CCTV 제품화 — 리테일 데모 → 통신사 납품")
+    hw_cols = [("구분", 2.6), ("기존 반려 CCTV", 4.35), ("PET-Aeye 바이탈 CCTV", 4.35)]
+    hw_rows = [
+        ("기능", "사람 · 펫 · 소리 감지 · 추적", "+ 비접촉 바이탈 (호흡 · 미동 · 재실)"),
+        ("센서", "카메라", "카메라 + FMCW 레이더 (폼팩터 내장)"),
+        ("판매 모델", "설치무료 · 구독 · 약정 (검증됨)", "동일 모델 + 프리미엄 상위 티어"),
+    ]
+    table(s, MX, 1.95, hw_cols, hw_rows, 0.5, body=11)
+    text(s, MX, 4.1, 6, 0.3, [("제품화 3단계", 13, ACCENT, True)])
+    steps = [
+        ("1 · 리테일 데모 · DTC 구독", "별관 샵에서 실연 → 설치무료 · 구독 · 약정 자체 판매. 레퍼런스 · 바이탈 성능 데이터 · 후기 확보.", ACCENT_WASH),
+        ("2 · 양산 · 인증", "EMS 양산 파트너 · KC/전파 인증 · 영상 보안(통신사 요구 수준) · 소규모 양산.", SAND),
+        ("3 · B2B 납품", "통신사(LG U+ 등) 화이트라벨 · ODM 또는 AI SW 레이어 공급. 동물병원 · 펫샵 체인 병행.", SAND),
+    ]
+    for i, (h, b, c) in enumerate(steps):
+        x = MX + i * 3.98
+        box(s, x, 4.5, 3.8, 1.65, c)
+        text(s, x + 0.25, 4.65, 3.35, 1.4, [(h, 12.5, INK, True, 5), (b, 11, INK, False)])
+    text(s, MX, 6.4, CW, 0.6, [
+        ("· 역할: 견주 앱 = 자체 개발 / AI · 바이탈 = PET-Aeye / 양산 = EMS 파트너.", 10, GRAY, False, 2),
+        ("· '바이탈'은 웰니스 · 호흡 · 활동 모니터링으로 표기(비의료). 가정 영상 보안 · FMCW 성능 PoC 선행.", 10, GRAY, False),
+    ])
+
+    # 확장 레이어 (Growth layers)
+    page += 1
+    s = new_slide(prs)
+    frame(s, page, "GROWTH LAYERS", "코어 위에 올리는 3개 성장 레이어")
+    stack = [
+        ("③ 프랜차이즈 · 위탁운영", SAND, INK),
+        ("② 헬스데이터 · 인슈어테크", ACCENT_DIM, INK),
+        ("① 멤버십 · 구독 OS", ACCENT, WHITE),
+        ("코어 · 영종 캠퍼스 × PET-Aeye", INK, WHITE),
+    ]
+    for i, (lab, fill, fg) in enumerate(stack):
+        y = 2.1 + i * 1.1
+        box(s, MX, y, 5.5, 0.95, fill)
+        text(s, MX, y + 0.26, 5.5, 0.5, [(lab, 15, fg, True)], PP_ALIGN.CENTER)
+    desc = [
+        ("① 멤버십 · 구독 OS", "전 사업을 월 구독 · 지갑 · 포인트로 통합 → LTV↑ · CAC↓.", "자체 앱 + PET-Aeye 데이터 · 수익: 구독 ARPU · 교차판매 · 선결제"),
+        ("② 헬스데이터 · 인슈어테크", "바이탈 · 행동 데이터로 펫보험 제휴 · 건강 구독.", "동물병원 임상 접점 · 수익: 제휴 수수료 · 데이터 · 건강 구독"),
+        ("③ 프랜차이즈 · 위탁운영", "브랜드 + SOP + PET-Aeye 패키지로 캠퍼스 복제(자본 효율).", "수익: 가맹비 · 로열티 · SaaS · 물류"),
+    ]
+    for i, (h, b, c) in enumerate(desc):
+        y = 2.2 + i * 1.35
+        text(s, 6.9, y, 5.7, 1.2, [(h, 15, ACCENT, True, 4), (b, 12.5, INK, False, 3), (c, 11, GRAY, False)])
+    text(s, MX, 6.55, CW, 0.3, [("* 멤버십이 데이터 레이어의 스파인입니다. 확장 레이어는 로드맵 항목으로 연매출엔 미반영.", 10, GRAY, False)])
+
+    # 확장 로드맵 (Growth roadmap)
+    page += 1
+    s = new_slide(prs)
+    frame(s, page, "GROWTH ROADMAP", "코어 검증 → 레이어를 순차로 켭니다")
+    gphases = [
+        ("개업~", "① 멤버십 · 구독 OS", "구독 · 지갑 · 포인트로 전 사업 통합 · 현금흐름 확보"),
+        ("안정기~", "② 헬스데이터 · 인슈어테크", "건강 스코어 · 펫보험 제휴 파일럿 (동물병원 접점)"),
+        ("레퍼런스 후", "③ 프랜차이즈 · 위탁운영", "표준 패키지(브랜드 · SOP · PET-Aeye)로 2호점 · MC"),
+        ("확장", "데이터 moat 본격화", "데이터 · SaaS · 인슈어테크 수익 비중 확대"),
+    ]
+    hline(s, MX, 2.6, CW, INK, 0.02)
+    for i, (when, name, it) in enumerate(gphases):
+        x = MX + i * 3.05
+        dot(s, x + 0.12, 2.61, 0.24, ACCENT if i == 0 else INK)
+        text(s, x, 2.05, 2.9, 0.35, [(when, 12, ACCENT if i == 0 else GRAY, True)])
+        text(s, x, 2.95, 2.9, 0.5, [(name, 15, INK, True)])
+        text(s, x, 3.6, 2.9, 1.1, [(it, 12, GRAY, False)])
+    box(s, MX, 5.1, CW, 1.2, SAND)
+    text(s, MX + 0.35, 5.35, CW - 0.7, 0.8, [
+        ("순서 원칙", 13, ACCENT, True, 5),
+        ("멤버십으로 데이터 · 현금흐름을 모으고 → 데이터로 보험 · 헬스를 수익화하고 → 검증된 모델을 복제합니다.", 14, INK, False),
+    ])
+    text(s, MX, 6.55, CW, 0.3, [("* 확장 레이어는 로드맵 항목입니다. 연매출(기준 약 24억)에는 아직 반영하지 않았습니다.", 10, GRAY, False)])
 
     # Ask (IR)
     page += 1
