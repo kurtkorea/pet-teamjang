@@ -3,45 +3,47 @@
 <head>
 <meta charset="utf-8">
 <style>
-  :root{--accent:#FF5B1F;--ink:#141414;--sub:#8A9099;--line:#EDEAE3;--warn:#F59E0B;--ok:#36C275;--danger:#FF4D4D;}
+  :root{--accent:#FF5B1F;--ink:#141414;--sub:#8A9099;--line:#EDEAE3;--warn:#F59E0B;--ok:#36C275;--danger:#FF4D4D;--vital:#5B9DFF;}
   *{box-sizing:border-box;margin:0;padding:0;font-family:"Malgun Gothic","Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;}
   html,body{width:462px;height:940px;background:transparent;}
   .phone{position:absolute;top:10px;left:10px;width:442px;height:920px;background:#0E0F12;border-radius:46px;padding:12px;box-shadow:0 24px 60px rgba(0,0,0,.28);}
   .screen{width:418px;height:896px;background:#14161A;border-radius:36px;overflow:hidden;position:relative;color:#E7E9ED;}
   .notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:150px;height:28px;background:#0E0F12;border-radius:0 0 18px 18px;z-index:9;}
   .sbar{display:flex;justify-content:space-between;align-items:center;padding:14px 26px 6px;font-size:13px;font-weight:700;}
-  .hd{padding:6px 20px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #22262E;}
+  .hd{padding:6px 20px 12px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #22262E;}
   .hd .logo{font-weight:800;font-size:16px;} .hd .logo b{color:var(--accent);}
   .hd .role{font-size:11px;color:var(--sub);background:#1E222A;padding:3px 8px;border-radius:20px;}
+  .mock{font-size:9px;color:var(--sub);border:1px solid #2A2F39;padding:2px 6px;border-radius:10px;}
   .hd .bell{margin-left:auto;position:relative;font-size:18px;}
   .hd .bell .b{position:absolute;top:-4px;right:-5px;background:var(--danger);color:#fff;font-size:9px;font-weight:800;border-radius:10px;padding:1px 4px;}
-  .scroll{height:800px;overflow:hidden;padding:14px 16px 0;}
+  .scroll{height:790px;overflow:hidden;padding:14px 16px 0;}
   .sec{font-size:12px;color:var(--sub);font-weight:700;margin:4px 2px 9px;letter-spacing:.3px;}
-  /* alert card */
-  .alert{background:#1E222A;border:1px solid var(--warn);border-radius:16px;overflow:hidden;margin-bottom:16px;}
+  .alert{background:#1E222A;border:1px solid var(--warn);border-radius:16px;overflow:hidden;margin-bottom:12px;}
   .alert .top{display:flex;align-items:center;gap:8px;padding:12px 14px;background:rgba(245,158,11,.12);}
   .alert .top .ic{width:26px;height:26px;border-radius:50%;background:var(--warn);color:#111;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:15px;}
   .alert .top .ti{font-size:14px;font-weight:800;}
   .alert .top .tm{margin-left:auto;font-size:11px;color:var(--sub);}
-  .feed{position:relative;height:180px;background:#000;}
+  .feed{position:relative;height:160px;background:#000;}
   .feed img{width:100%;height:100%;object-fit:cover;}
   .feed .bbox{position:absolute;left:33%;top:44%;width:21%;height:33%;border:2px solid var(--accent);border-radius:3px;}
   .feed .bbox .tag{position:absolute;top:-18px;left:-2px;background:var(--accent);color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:3px;}
   .feed .rm{position:absolute;top:8px;left:10px;background:rgba(0,0,0,.55);padding:3px 8px;border-radius:5px;font-size:11px;font-weight:700;}
   .feed .live{position:absolute;top:8px;right:10px;background:var(--danger);padding:2px 7px;border-radius:5px;font-size:10px;font-weight:800;display:flex;align-items:center;gap:4px;}
   .feed .live .d{width:6px;height:6px;border-radius:50%;background:#fff;}
+  .vitalbar{display:flex;gap:8px;padding:10px 14px;background:rgba(91,157,255,.1);border-top:1px solid #2A2F39;}
+  .vitalbar .v{font-size:11px;font-weight:700;color:#B8D4FF;}
+  .vitalbar .v b{color:var(--vital);}
   .alert .desc{padding:11px 14px;font-size:12px;color:#C3C9D2;line-height:1.5;}
   .alert .desc b{color:#E7E9ED;}
   .alert .btns{display:flex;gap:8px;padding:0 14px 14px;}
   .btn{flex:1;text-align:center;padding:11px 0;border-radius:11px;font-size:13px;font-weight:700;}
   .btn.p{background:var(--accent);color:#fff;} .btn.s{background:#2A2F39;color:#E7E9ED;}
-  /* task rows */
   .task{display:flex;align-items:center;gap:12px;padding:13px 4px;border-bottom:1px solid #22262E;}
   .task .rm{width:62px;font-size:12px;font-weight:800;color:#E7E9ED;flex:none;}
   .task .c{flex:1;} .task .c .ti{font-size:13px;font-weight:700;} .task .c .de{font-size:11px;color:var(--sub);margin-top:1px;}
   .task .st{font-size:10px;font-weight:700;padding:4px 9px;border-radius:20px;}
   .st.todo{background:rgba(255,91,31,.14);color:var(--accent);} .st.done{background:rgba(54,194,117,.14);color:var(--ok);}
-  /* tab bar */
+  .note{font-size:10px;color:var(--sub);padding:8px 2px 4px;}
   .tabs{position:absolute;bottom:0;left:0;right:0;height:64px;background:#101216;border-top:1px solid #22262E;display:flex;}
   .tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10px;color:var(--sub);}
   .tab .i{font-size:17px;} .tab.on{color:var(--accent);}
@@ -51,7 +53,7 @@
 <div class="phone"><div class="screen">
   <div class="notch"></div>
   <div class="sbar"><span>09:41</span><span>5G ▪ ▪ ▪ 88%</span></div>
-  <div class="hd"><div class="logo">PET<b>-Aeye</b></div><div class="role">스태프</div>
+  <div class="hd"><div class="logo">PET<b>-Aeye</b></div><div class="role">스태프</div><div class="mock">목업</div>
     <div class="bell">🔔<span class="b">3</span></div></div>
   <div class="scroll">
     <div class="sec">확인이 필요한 알림</div>
@@ -63,14 +65,19 @@
         <div class="rm">2F-118 · 소형</div>
         <div class="live"><span class="d"></span>LIVE</div>
       </div>
-      <div class="desc"><b>단추 (푸들)</b> · 25분 연속 이동이 감지됐습니다. 분리불안 이력이 있는 개체입니다.</div>
+      <div class="vitalbar">
+        <div class="v">바이탈(웰니스) · 호흡 <b>28/분 ↑</b></div>
+        <div class="v">재실 <b>확인</b></div>
+      </div>
+      <div class="desc"><b>단추 (푸들)</b> · 25분 연속 이동 + 호흡 상승. 분리불안 이력 개체 · 현장 확인 권장.</div>
       <div class="btns"><div class="btn p">현장 확인</div><div class="btn s">정상 처리</div></div>
     </div>
     <div class="sec">오늘 할 일 · 2F 담당</div>
     <div class="task"><div class="rm">2F-132</div><div class="c"><div class="ti">오후 급식</div><div class="de">뭉치 · 15:00 예정</div></div><div class="st todo">대기</div></div>
     <div class="task"><div class="rm">2F-140</div><div class="c"><div class="ti">산책</div><div class="de">구름 · 완료 13:50</div></div><div class="st done">완료</div></div>
-    <div class="task"><div class="rm">2F-151</div><div class="c"><div class="ti">신규 체크인 확인</div><div class="de">모찌 · 카메라 연결됨</div></div><div class="st todo">대기</div></div>
+    <div class="task"><div class="rm">2F-151</div><div class="c"><div class="ti">신규 체크인 · 바이탈 연결</div><div class="de">모찌 · 카메라·센서 OK</div></div><div class="st todo">대기</div></div>
     <div class="task"><div class="rm">2F-118</div><div class="c"><div class="ti">투약</div><div class="de">단추 · 저녁</div></div><div class="st todo">대기</div></div>
+    <div class="note">바이탈은 웰니스 참고값입니다(비의료). 보호자 공유는 확인 후.</div>
   </div>
   <div class="tabs">
     <div class="tab on"><span class="i">🔔</span>알림</div>

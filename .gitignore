@@ -7,5 +7,6 @@ doc/_chk/
 doc/_check/
 doc/_chk*.py
 **/node_modules/
+__pycache__/
 .DS_Store
 Thumbs.db

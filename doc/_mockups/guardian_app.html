@@ -3,48 +3,49 @@
 <head>
 <meta charset="utf-8">
 <style>
-  :root{--accent:#FF5B1F;--ink:#1B1B1B;--sub:#8A8A8A;--line:#EEEAE2;--paper:#FBFAF7;--ok:#2BB673;--wash:#FFF0E8;}
+  :root{--accent:#FF5B1F;--ink:#1B1B1B;--sub:#8A8A8A;--line:#EEEAE2;--paper:#FBFAF7;--ok:#2BB673;--wash:#FFF0E8;--vital:#3D7AD6;}
   *{box-sizing:border-box;margin:0;padding:0;font-family:"Malgun Gothic","Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;}
   html,body{width:462px;height:940px;background:transparent;}
   .phone{position:absolute;top:10px;left:10px;width:442px;height:920px;background:#1A1A1A;border-radius:46px;padding:12px;box-shadow:0 24px 60px rgba(0,0,0,.28);}
   .screen{width:418px;height:896px;background:var(--paper);border-radius:36px;overflow:hidden;position:relative;color:var(--ink);}
   .notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:150px;height:28px;background:#1A1A1A;border-radius:0 0 18px 18px;z-index:9;}
   .sbar{display:flex;justify-content:space-between;align-items:center;padding:14px 26px 8px;font-size:13px;font-weight:700;color:var(--ink);}
-  .hd{padding:2px 20px 12px;}
+  .hd{padding:2px 20px 10px;display:flex;align-items:flex-start;gap:8px;}
+  .hd .txt{flex:1;}
   .hd .hi{font-size:12px;color:var(--sub);}
-  .hd .nm{font-size:20px;font-weight:800;margin-top:2px;}
+  .hd .nm{font-size:19px;font-weight:800;margin-top:2px;line-height:1.3;}
   .hd .nm b{color:var(--accent);}
-  .scroll{height:812px;overflow:hidden;padding:4px 18px 0;}
-  /* live card */
+  .mock{font-size:9px;color:var(--sub);border:1px solid var(--line);padding:2px 6px;border-radius:10px;margin-top:4px;}
+  .scroll{height:800px;overflow:hidden;padding:4px 18px 0;}
   .live{border-radius:20px;overflow:hidden;position:relative;background:#000;box-shadow:0 10px 26px rgba(0,0,0,.14);}
-  .live img{width:100%;height:232px;object-fit:cover;display:block;}
-  .live .bbox{position:absolute;left:21%;top:50%;width:33%;height:30%;border:2px solid rgba(255,255,255,.85);border-radius:4px;}
+  .live img{width:100%;height:210px;object-fit:cover;display:block;}
+  .live .bbox{position:absolute;left:21%;top:48%;width:33%;height:30%;border:2px solid rgba(255,255,255,.85);border-radius:4px;}
   .live .bbox .tag{position:absolute;top:-19px;left:-2px;background:rgba(255,255,255,.9);color:#141414;font-size:10px;font-weight:700;padding:1px 6px;border-radius:3px;}
   .live .badge{position:absolute;top:12px;left:12px;background:rgba(255,77,77,.92);color:#fff;font-size:11px;font-weight:800;padding:3px 9px;border-radius:6px;display:flex;align-items:center;gap:5px;}
   .live .badge .d{width:6px;height:6px;border-radius:50%;background:#fff;}
   .live .rm{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.5);color:#fff;font-size:11px;font-weight:700;padding:3px 9px;border-radius:6px;}
   .live .cap{position:absolute;bottom:0;left:0;right:0;padding:26px 14px 12px;background:linear-gradient(transparent,rgba(0,0,0,.72));color:#fff;}
   .live .cap .n{font-size:16px;font-weight:800;} .live .cap .s{font-size:11px;opacity:.85;margin-top:1px;}
-  /* status pills */
-  .pills{display:flex;gap:8px;margin:14px 0 18px;}
-  .pill{flex:1;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 10px;text-align:center;}
-  .pill .v{font-size:17px;font-weight:800;} .pill .v.ac{color:var(--accent);}
+  .pills{display:flex;gap:8px;margin:12px 0 14px;}
+  .pill{flex:1;background:#fff;border:1px solid var(--line);border-radius:14px;padding:11px 8px;text-align:center;}
+  .pill .v{font-size:15px;font-weight:800;} .pill .v.ac{color:var(--accent);} .pill .v.vt{color:var(--vital);}
   .pill .l{font-size:10px;color:var(--sub);margin-top:3px;}
-  /* report card */
-  .card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px 16px 6px;margin-bottom:16px;}
+  .card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px 16px 6px;margin-bottom:12px;}
   .card .ch{display:flex;align-items:center;margin-bottom:4px;}
   .card .ch .t{font-size:15px;font-weight:800;} .card .ch .dt{margin-left:auto;font-size:11px;color:var(--sub);}
-  .row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);}
+  .row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);}
   .row:last-child{border-bottom:none;}
   .row .ic{width:34px;height:34px;border-radius:10px;background:var(--wash);display:flex;align-items:center;justify-content:center;font-size:16px;flex:none;}
   .row .c{flex:1;} .row .c .ti{font-size:13px;font-weight:700;} .row .c .de{font-size:11px;color:var(--sub);margin-top:1px;}
   .row .vv{font-size:13px;font-weight:800;color:var(--accent);}
-  /* highlight */
-  .hl{position:relative;border-radius:16px;overflow:hidden;margin-bottom:16px;}
-  .hl img{width:100%;height:120px;object-fit:cover;filter:brightness(.82);}
-  .hl .play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;font-size:17px;color:var(--accent);padding-left:3px;}
-  .hl .cap{position:absolute;bottom:10px;left:14px;color:#fff;font-size:13px;font-weight:800;text-shadow:0 1px 4px rgba(0,0,0,.5);}
-  .msg{background:var(--wash);border-radius:14px;padding:13px 15px;font-size:12px;color:#8A4A2E;line-height:1.5;margin-bottom:8px;}
+  .hl{position:relative;border-radius:16px;overflow:hidden;margin-bottom:10px;}
+  .hl img{width:100%;height:100px;object-fit:cover;filter:brightness(.82);}
+  .hl .play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--accent);padding-left:3px;}
+  .hl .cap{position:absolute;bottom:8px;left:14px;color:#fff;font-size:12px;font-weight:800;text-shadow:0 1px 4px rgba(0,0,0,.5);}
+  .grad{background:linear-gradient(135deg,#FFECE4,#FFF8F3);border:1px solid #FFD2C0;border-radius:14px;padding:12px 14px;margin-bottom:10px;display:flex;align-items:center;gap:10px;}
+  .grad .ic{width:36px;height:36px;border-radius:10px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;flex:none;}
+  .grad .t{font-size:13px;font-weight:800;} .grad .d{font-size:11px;color:#8A4A2E;margin-top:2px;}
+  .msg{background:var(--wash);border-radius:14px;padding:11px 14px;font-size:11px;color:#8A4A2E;line-height:1.45;margin-bottom:8px;}
   .msg b{color:var(--accent);}
   .tabs{position:absolute;bottom:0;left:0;right:0;height:64px;background:#fff;border-top:1px solid var(--line);display:flex;}
   .tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10px;color:var(--sub);}
@@ -55,8 +56,13 @@
 <div class="phone"><div class="screen">
   <div class="notch"></div>
   <div class="sbar"><span>09:41</span><span>5G ▪ ▪ ▪ 88%</span></div>
-  <div class="hd"><div class="hi">맡기는 순간부터, 보이는 안심을</div>
-    <div class="nm">초코는 지금 <b>편안히 쉬고 있어요</b></div></div>
+  <div class="hd">
+    <div class="txt">
+      <div class="hi">맡기는 순간부터, 보이는 안심을</div>
+      <div class="nm">초코는 지금 <b>편안히 쉬고 있어요</b></div>
+    </div>
+    <div class="mock">목업</div>
+  </div>
   <div class="scroll">
     <div class="live">
       <img src="file:///C:/Users/kurtk/.cursor/projects/d-dev-pawkorea-pet-teamjang/assets/cam_room_rest.jpg">
@@ -66,15 +72,15 @@
       <div class="cap"><div class="n">초코</div><div class="s">파우코리아 펫호텔 영종 · 입실 2일차</div></div>
     </div>
     <div class="pills">
-      <div class="pill"><div class="v">4.2km</div><div class="l">오늘 활동</div></div>
+      <div class="pill"><div class="v vt">18</div><div class="l">호흡/분 · 웰니스</div></div>
       <div class="pill"><div class="v ac">2회</div><div class="l">산책</div></div>
       <div class="pill"><div class="v">안정</div><div class="l">컨디션</div></div>
     </div>
     <div class="card">
-      <div class="ch"><div class="t">오늘의 CareReport</div><div class="dt">5월 14일</div></div>
+      <div class="ch"><div class="t">오늘의 CareReport</div><div class="dt">10월 17일</div></div>
       <div class="row"><div class="ic">🍚</div><div class="c"><div class="ti">아침 · 저녁 급식 완료</div><div class="de">남김 없이 잘 먹었어요</div></div><div class="vv">100%</div></div>
-      <div class="row"><div class="ic">🦮</div><div class="c"><div class="ti">산책 2회 · 플레이존</div><div class="de">오전 10:20 · 오후 13:50</div></div><div class="vv">4.2km</div></div>
-      <div class="row"><div class="ic">😴</div><div class="c"><div class="ti">수면 · 휴식</div><div class="de">낮잠 충분 · 야간 숙면</div></div><div class="vv">양호</div></div>
+      <div class="row"><div class="ic">🦮</div><div class="c"><div class="ti">산책 2회 · 플레이존</div><div class="de">오전 10:20 · 오후 13:50</div></div><div class="vv">양호</div></div>
+      <div class="row"><div class="ic">💤</div><div class="c"><div class="ti">휴식 · 호흡 안정</div><div class="de">웰니스 참고 · 스태프 확인</div></div><div class="vv">18/분</div></div>
       <div class="row"><div class="ic">💬</div><div class="c"><div class="ti">스태프 메모</div><div class="de">낯가림 없이 잘 지내요. 간식 반응 좋아요.</div></div></div>
     </div>
     <div class="hl">
@@ -82,7 +88,11 @@
       <div class="play">▶</div>
       <div class="cap">오늘의 하이라이트 · 0:12</div>
     </div>
-    <div class="msg"><b>안심 링크</b>는 초코의 체크아웃까지 열려 있어요. 배정된 객실 화면만 보여드립니다.</div>
+    <div class="grad">
+      <div class="ic">★</div>
+      <div class="c"><div class="t">Stay 졸업 리포트</div><div class="d">퇴실 후 투숙 기간 종합 행동분석이 도착해요</div></div>
+    </div>
+    <div class="msg"><b>안심 링크</b>는 체크아웃까지 열려 있어요. 배정 객실만 보이며, 호흡 수치는 웰니스 참고값입니다(비의료).</div>
   </div>
   <div class="tabs">
     <div class="tab on"><span class="i">●</span>실시간</div>

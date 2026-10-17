@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>PET-Aeye 관제 소프트웨어 시스템 구성도</title>
+<style>
+  :root{--paper:#F5F3EE;--ink:#141414;--gray:#6B6B6B;--rule:#D9D5CC;--sand:#EAE6DD;--accent:#FF5B1F;--wash:#FFECE4;--vital:#2F6FDE;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{width:1800px;height:990px;background:var(--paper);font-family:"Pretendard","Malgun Gothic","Apple SD Gothic Neo",sans-serif;color:var(--ink);position:relative;overflow:hidden}
+  .abs{position:absolute}
+  .title{left:30px;top:26px}
+  .title .k{font-size:14px;font-weight:700;color:var(--accent);letter-spacing:.02em}
+  .title h1{font-size:30px;font-weight:800;margin-top:6px}
+  .mock{right:30px;top:34px;font-size:12px;font-weight:700;color:var(--gray);border:1px solid var(--rule);border-radius:20px;padding:5px 12px;background:#fff}
+  .zone{border-radius:14px}
+  .zone .zh{position:absolute;left:16px;top:12px;font-size:15px;font-weight:800}
+  .zone .zs{position:absolute;right:16px;top:14px;font-size:12px;color:var(--gray);font-weight:600}
+  .z-dev{background:var(--sand)}
+  .z-site{background:#fff;border:2px solid var(--ink)}
+  .z-lan{background:var(--sand)}
+  .z-cloud{background:var(--wash);border:1.5px dashed var(--accent)}
+  .z-out{background:var(--sand)}
+  .lane{font-size:12px;font-weight:800;color:var(--accent);letter-spacing:.04em}
+  .card{background:#fff;border:1px solid var(--rule);border-radius:10px;padding:10px 12px}
+  .z-site .card{background:var(--paper)}
+  .card .t{font-size:15px;font-weight:800;line-height:1.25}
+  .card .d{font-size:12px;color:var(--gray);margin-top:4px;line-height:1.35}
+  .card .g{display:inline-block;margin-top:6px;font-size:11px;font-weight:700;color:var(--ink);background:var(--sand);border-radius:4px;padding:2px 6px}
+  .z-site .card .g{background:#fff;border:1px solid var(--rule)}
+  .card.hot{background:var(--wash);border:1.5px solid var(--accent)}
+  .card.p1{border:1.5px dashed var(--vital);background:#fff}
+  .card.p1 .t{color:var(--vital)}
+  .card.p2{border:1.5px dashed var(--gray);background:transparent}
+  .mvp{position:absolute;right:8px;top:8px;font-size:10px;font-weight:800;color:#fff;background:var(--ink);border-radius:3px;padding:1px 5px}
+  .chips{display:flex;gap:6px;margin-top:7px}
+  .chips span{flex:1;text-align:center;font-size:11px;font-weight:700;background:#fff;border:1px solid var(--rule);border-radius:5px;padding:4px 0}
+  .ops{font-size:12.5px;color:var(--ink);line-height:1.5}
+  .ops b{color:var(--accent)}
+  .legend{font-size:12.5px;line-height:1.55}
+  .legend .n{display:inline-flex;width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;font-weight:800;align-items:center;justify-content:center;margin-right:6px}
+  .legend .row{display:flex;align-items:flex-start;margin-bottom:6px}
+  .legend .row div{flex:1}
+  .legend .sub{color:var(--gray);font-size:11.5px}
+  .foot{left:30px;top:946px;font-size:12px;color:var(--gray)}
+  svg{position:absolute;left:0;top:0;pointer-events:none}
+  .lbl{font-size:11.5px;font-weight:700;fill:var(--ink)}
+  .lblg{font-size:11px;font-weight:600;fill:#6B6B6B}
+</style>
+</head>
+<body>
+<div class="abs title"><div class="k">PET-Aeye · 관제 소프트웨어</div><h1>시스템 구성도 (제안)</h1></div>
+<div class="abs mock">구성 예시 · 제안안</div>
+
+<!-- ZONES -->
+<div class="abs zone z-dev" style="left:30px;top:130px;width:200px;height:640px"><div class="zh">현장 장치</div></div>
+<div class="abs zone z-site" style="left:270px;top:130px;width:840px;height:770px"><div class="zh">관제실 서버 · 온프레미스</div><div class="zs">GPU 서버 2 · 앱/DB 서버 1 · 녹화 스토리지 1</div></div>
+<div class="abs zone z-lan" style="left:1150px;top:130px;width:420px;height:320px"><div class="zh">현장 화면 · LAN</div><div class="zs">관제실 유선 · 직원 Wi-Fi</div></div>
+<div class="abs zone z-cloud" style="left:1150px;top:480px;width:420px;height:420px"><div class="zh">클라우드</div><div class="zs">보호자 · 외부 접속 전용</div></div>
+<div class="abs zone z-out" style="left:1610px;top:480px;width:170px;height:420px"><div class="zh">외부</div></div>
+
+<!-- DEVICES -->
+<div class="abs card" style="left:45px;top:180px;width:170px;height:95px"><div class="t">객실 카메라<br>116대</div><div class="d">4MP · IR · ONVIF</div></div>
+<div class="abs card" style="left:45px;top:295px;width:170px;height:95px"><div class="t">공용 카메라<br>40대</div><div class="d">고정 34 · PTZ 6</div></div>
+<div class="abs card p1" style="left:45px;top:410px;width:170px;height:95px"><div class="t">바이탈 센서</div><div class="d">FMCW · PoC 후 P1+<br>웰니스(비의료)</div></div>
+<div class="abs" style="left:45px;top:530px;width:170px;font-size:12px;color:#6B6B6B;line-height:1.5"><b style="color:#141414">카메라 VLAN</b><br>인터넷 차단<br>서버망과만 통신</div>
+
+<!-- SITE: lanes -->
+<div class="abs lane" style="left:285px;top:190px">미디어</div>
+<div class="abs lane" style="left:555px;top:190px">AI · 이벤트</div>
+<div class="abs lane" style="left:825px;top:190px">서비스</div>
+
+<!-- media -->
+<div class="abs card" style="left:285px;top:215px;width:250px;height:115px"><div class="t">미디어 게이트웨이</div><div class="d">카메라당 1회만 수신 → 녹화 · AI · 라이브로 재송출</div><div class="g">MediaMTX · WebRTC / HLS</div></div>
+<div class="abs card" style="left:285px;top:345px;width:250px;height:100px"><div class="mvp">MVP</div><div class="t">녹화기</div><div class="d">메인 스트림 · 60초 세그먼트 · 30일 보존</div><div class="g">Rust · ingest-rs</div></div>
+<div class="abs card" style="left:285px;top:460px;width:250px;height:100px"><div class="t">장비 관리</div><div class="d">ONVIF 검색 · 온라인 상태 · 룸 매핑 · 자격증명 금고</div><div class="g">Node · 암호화 저장</div></div>
+
+<!-- ai -->
+<div class="abs card" style="left:555px;top:215px;width:250px;height:135px"><div class="mvp">MVP</div><div class="t">AI 워커 × 2</div><div class="d">서브스트림 5fps · YOLO11 + ByteTrack · 행동 라벨</div><div class="chips"><span>GPU #1 · 78대</span><span>GPU #2 · 78대</span></div></div>
+<div class="abs card hot" style="left:555px;top:365px;width:250px;height:120px"><div class="t">이벤트 엔진</div><div class="d">E1~E7 룰 · Zone · 개체 기준선 · 오탐 억제 · 바이탈 융합</div><div class="g">Python · 신규</div></div>
+<div class="abs card p1" style="left:555px;top:500px;width:250px;height:75px"><div class="t">바이탈 채널 (P1+)</div><div class="d">호흡 · 미동 · 재실 추론</div></div>
+
+<!-- service -->
+<div class="abs card" style="left:825px;top:215px;width:270px;height:95px"><div class="mvp">MVP</div><div class="t">코어 API</div><div class="d">Stay · Room · Pet · Event · RBAC · 감사 로그</div><div class="g">Node.js · api</div></div>
+<div class="abs card" style="left:825px;top:325px;width:270px;height:85px"><div class="mvp">MVP</div><div class="t">실시간 게이트웨이</div><div class="d">WebSocket 2초 갱신 · 알림 팬아웃</div></div>
+<div class="abs card" style="left:825px;top:425px;width:270px;height:85px"><div class="t">리포트 빌더</div><div class="d">CareReport 초안 · 하이라이트 클립 추출</div></div>
+<div class="abs card" style="left:825px;top:525px;width:270px;height:85px"><div class="t">동기화 에이전트</div><div class="d">클라우드로 나가는 연결만 · 끊기면 큐 보관</div></div>
+
+<!-- data -->
+<div class="abs lane" style="left:285px;top:650px">데이터 · 모든 서비스가 공유</div>
+<div class="abs card" style="left:285px;top:675px;width:191px;height:95px"><div class="mvp">MVP</div><div class="t">PostgreSQL</div><div class="d">도메인 · 이벤트 · 감사 로그</div></div>
+<div class="abs card" style="left:491px;top:675px;width:191px;height:95px"><div class="mvp">MVP</div><div class="t">Redis Streams</div><div class="d">검출 · 이벤트 버스 · 캐시</div></div>
+<div class="abs card" style="left:697px;top:675px;width:191px;height:95px"><div class="t">녹화 스토리지</div><div class="d">RAID6 · 실사용 약 160TB</div></div>
+<div class="abs card p1" style="left:903px;top:675px;width:192px;height:95px"><div class="t">시계열 DB (P1)</div><div class="d">바이탈 · 운영 지표<br>TimescaleDB</div></div>
+
+<div class="abs ops" style="left:285px;top:790px;width:810px"><b>운영</b> · Prometheus + Grafana 모니터링 · Loki 로그 · 일일 백업(NAS + 클라우드) · UPS · Docker Compose 배포<br><b>보안</b> · VLAN 분리 · 관리자 MFA · 역할 권한 · 영상 열람 감사 · 외부에서 관제실로 들어오는 포트 없음</div>
+
+<!-- LAN clients -->
+<div class="abs card" style="left:1165px;top:180px;width:390px;height:110px"><div class="mvp">MVP</div><div class="t">관리자 웹 · 월 모드</div><div class="d">룸 그리드 · 이벤트 타임라인 · Stay · 리포트 검수 · 설정</div><div class="g">React · admin</div></div>
+<div class="abs card" style="left:1165px;top:310px;width:390px;height:120px"><div class="t">스태프 앱</div><div class="d">알림 · 1-탭 처리 · 케어 로그 · 사진<br>라이브는 직원 Wi-Fi, 푸시는 클라우드 경유</div><div class="g">Flutter · Android / iOS / Web</div></div>
+
+<!-- cloud -->
+<div class="abs card" style="left:1165px;top:525px;width:190px;height:110px"><div class="t">보호자 API · 인증</div><div class="d">안심 링크 토큰 · 휴대폰 인증 · 배정 객실 권한</div></div>
+<div class="abs card" style="left:1365px;top:525px;width:190px;height:110px"><div class="t">라이브 중계</div><div class="d">요청 시에만 배정 객실 1채널 중계</div></div>
+<div class="abs card" style="left:1165px;top:650px;width:190px;height:110px"><div class="t">알림</div><div class="d">스태프 푸시(FCM / APNs) · 알림톡 · SMS</div></div>
+<div class="abs card" style="left:1365px;top:650px;width:190px;height:110px"><div class="t">오브젝트 스토리지</div><div class="d">승인된 리포트 · 클립 · CDN</div></div>
+<div class="abs card" style="left:1165px;top:775px;width:190px;height:110px"><div class="t">백업 · 복구</div><div class="d">DB 스냅샷 · 설정 · 이벤트 클립</div></div>
+<div class="abs card p2" style="left:1365px;top:775px;width:190px;height:110px"><div class="t">테넌트 콘솔 (P2)</div><div class="d">다지점 · SaaS 과금 계측</div></div>
+
+<!-- outside -->
+<div class="abs card" style="left:1622px;top:530px;width:146px;height:130px"><div class="t">보호자 앱 · 링크</div><div class="d">라이브 · 리포트 · 하이라이트</div><div class="g">Flutter · 앱 / Web</div></div>
+<div class="abs card" style="left:1622px;top:690px;width:146px;height:120px"><div class="t">외부 연동</div><div class="d">예약 · PMS · PG 웹훅</div></div>
+
+<!-- legend -->
+<div class="abs legend" style="left:1610px;top:130px;width:170px">
+  <div style="font-weight:800;margin-bottom:8px">데이터 흐름</div>
+  <div class="row"><span class="n">1</span><div>수집<div class="sub">RTSP 1회 수신</div></div></div>
+  <div class="row"><span class="n">2</span><div>분석<div class="sub">서브 5fps → GPU</div></div></div>
+  <div class="row"><span class="n">3</span><div>이벤트<div class="sub">룰 판정 → 저장</div></div></div>
+  <div class="row"><span class="n">4</span><div>관제 · 알림<div class="sub">WebSocket · 푸시</div></div></div>
+  <div class="row"><span class="n">5</span><div>보호자 공유<div class="sub">승인된 것만 위로</div></div></div>
+  <div style="margin-top:6px;font-size:11.5px;color:#6B6B6B"><b style="color:#141414">MVP</b> = 현재 골격 있음<br><span style="color:#2F6FDE;font-weight:700">파란 점선</span> = P1 이후</div>
+</div>
+
+<div class="abs foot">구성 예시 · 제안안입니다. 카메라 자격증명은 장비 관리의 암호화 저장소에만 두며 문서 · 코드 · 채팅에 남기지 않습니다. 바이탈은 웰니스 참고값(비의료)입니다.</div>
+
+<svg width="1800" height="990" viewBox="0 0 1800 990">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#141414"/></marker>
+    <marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#FF5B1F"/></marker>
+    <marker id="av" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2F6FDE"/></marker>
+  </defs>
+  <g fill="none" stroke="#141414" stroke-width="1.8">
+    <!-- 1 cameras -> gateway -->
+    <path d="M215,228 L282,250" marker-end="url(#a)"/>
+    <path d="M215,342 L250,342 L250,290 L282,290" marker-end="url(#a)"/>
+    <!-- gateway -> recorder -->
+    <path d="M410,330 L410,342" marker-end="url(#a)"/>
+    <!-- 2 gateway -> ai -->
+    <path d="M535,270 L552,270" marker-end="url(#a)"/>
+    <!-- ai -> event -->
+    <path d="M680,350 L680,362" marker-end="url(#a)"/>
+    <!-- 3 event -> realtime / api -->
+    <path d="M805,420 L815,420 L815,368 L822,368" marker-end="url(#a)"/>
+    <path d="M815,368 L815,262 L822,262" marker-end="url(#a)"/>
+    <!-- 4 realtime -> admin / staff -->
+    <path d="M1095,360 L1125,360 L1125,235 L1162,235" marker-end="url(#a)"/>
+    <path d="M1125,360 L1162,360" marker-end="url(#a)"/>
+  </g>
+  <!-- 5 sync -> cloud -> guardian -->
+  <g fill="none" stroke="#FF5B1F" stroke-width="2">
+    <path d="M1095,567 L1162,567" marker-end="url(#ao)"/>
+    <path d="M1555,595 L1619,595" marker-end="url(#ao)"/>
+    <path d="M1165,705 L1138,705 L1138,405 L1162,405" stroke-dasharray="5 4" marker-end="url(#ao)"/>
+  </g>
+  <g fill="none" stroke="#6B6B6B" stroke-width="1.5" stroke-dasharray="5 4">
+    <path d="M1619,750 L1558,750" marker-end="url(#a)"/>
+  </g>
+  <!-- vital -->
+  <g fill="none" stroke="#2F6FDE" stroke-width="1.8" stroke-dasharray="6 4">
+    <path d="M215,458 L240,458 L240,625 L545,625 L545,540 L552,540" marker-end="url(#av)"/>
+    <path d="M680,500 L680,488" marker-end="url(#av)"/>
+  </g>
+  <!-- step badges -->
+  <g font-size="11" font-weight="800" text-anchor="middle">
+    <circle cx="250" cy="226" r="11" fill="#FF5B1F"/><text x="250" y="230" fill="#fff">1</text>
+    <circle cx="544" cy="250" r="11" fill="#FF5B1F"/><text x="544" y="254" fill="#fff">2</text>
+    <circle cx="815" cy="315" r="11" fill="#FF5B1F"/><text x="815" y="319" fill="#fff">3</text>
+    <circle cx="1125" cy="300" r="11" fill="#FF5B1F"/><text x="1125" y="304" fill="#fff">4</text>
+    <circle cx="1128" cy="567" r="11" fill="#FF5B1F"/><text x="1128" y="571" fill="#fff">5</text>
+  </g>
+  <text class="lblg" x="1100" y="596">mTLS</text>
+  <text class="lblg" x="1113" y="690">푸시</text>
+  <text class="lblg" x="1562" y="585">링크 · 앱</text>
+  <text class="lblg" x="1560" y="740">웹훅</text>
+  <text class="lblg" x="300" y="617" style="fill:#2F6FDE">바이탈 신호 (P1+)</text>
+</svg>
+</body>
+</html>
