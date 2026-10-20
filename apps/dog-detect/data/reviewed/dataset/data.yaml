@@ -1,0 +1,5 @@
+path: D:/dev_pawkorea/pet-teamjang/apps/dog-detect/data/reviewed/dataset
+train: images/train
+val: images/val
+names:
+  0: dog

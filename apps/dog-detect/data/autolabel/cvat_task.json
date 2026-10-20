@@ -1,0 +1,14 @@
+{
+  "created_at": "20261020-180859",
+  "project_id": 1,
+  "project_name": "pet-dog-detect",
+  "label": "dog",
+  "tasks": [
+    {
+      "id": 4,
+      "name": "dog-autolabel-20261020-180859-001",
+      "url": "http://localhost:8080/tasks/4",
+      "images": 135
+    }
+  ]
+}

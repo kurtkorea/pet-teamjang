@@ -1,15 +1,17 @@
 .env
 .venv/
 .cvat/
-runs/
 __pycache__/
 *.py[cod]
 *.egg-info/
-*.pt
+*.cache
 
+# 동영상만 제외. 학습용 이미지·라벨·가중치는 추적합니다.
 data/videos/*
 !data/videos/.gitkeep
-data/autolabel/*
-!data/autolabel/.gitkeep
-data/reviewed/*
-!data/reviewed/.gitkeep
+
+# CVAT에서 받은 원본 zip/풀린 폴더는 dataset과 중복이라 제외합니다.
+data/reviewed/raw/
+
+# 업로드 임시 폴더
+data/autolabel/_cvat/

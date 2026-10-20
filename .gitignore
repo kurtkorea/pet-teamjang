@@ -18,17 +18,14 @@ doc/_chk/
 doc/_check/
 doc/_chk*.py
 
-# dog-detect: 영상, 라벨, 학습 산출물, CVAT 클론
+# dog-detect: 비밀값·로컬 도구·동영상만 제외 (학습 데이터는 추적)
 apps/dog-detect/.env
 apps/dog-detect/.venv/
 apps/dog-detect/.cvat/
-apps/dog-detect/runs/
-apps/dog-detect/**/*.pt
 apps/dog-detect/**/__pycache__/
 apps/dog-detect/*.egg-info/
+apps/dog-detect/**/*.cache
 apps/dog-detect/data/videos/*
 !apps/dog-detect/data/videos/.gitkeep
-apps/dog-detect/data/autolabel/*
-!apps/dog-detect/data/autolabel/.gitkeep
-apps/dog-detect/data/reviewed/*
-!apps/dog-detect/data/reviewed/.gitkeep
+apps/dog-detect/data/reviewed/raw/
+apps/dog-detect/data/autolabel/_cvat/
