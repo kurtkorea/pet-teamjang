@@ -1,0 +1,24 @@
+[project]
+name = "dog-detect"
+version = "0.1.0"
+description = "저장된 영상에서 YOLO11n으로 강아지를 탐지하고, CVAT 검수 뒤 RTX 5070에서 학습합니다."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "ultralytics>=8.3.160",
+    "opencv-python>=4.10",
+    "pyyaml>=6.0",
+    "cvat-sdk>=2.40",
+    "python-dotenv>=1.0",
+    "tqdm>=4.66",
+]
+
+[project.scripts]
+dog-detect = "dog_detect.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["dog_detect*"]
