@@ -12,7 +12,7 @@ from _build_master_pptx import (
 SPEC_VERSION = "0.2"
 DOC_DATE = "2026.10"
 OUT = rf"D:\dev_pawkorea\pet-teamjang\doc\PLAN_PET-Aeye_apps_spec_v{SPEC_VERSION}.pptx"
-FOOTER = "PET-Aeye 앱 기획서  ·  기능 명세"
+FOOTER = "PET-Aeye 앱 기획서  ·  기능 명세 · NPU 카메라 ODM"
 ARCH_IMG = r"D:\dev_pawkorea\pet-teamjang\doc\_mockups\out_arch_system.png"
 
 SPEC_COLS = [("ID", 0.85), ("기능", 2.35), ("상세 명세", 6.75), ("우선", 0.8), ("비고", 1.18)]
@@ -228,7 +228,12 @@ def build():
     text(s, MX, 1.5, 11.8, 2.6, [("PET-Aeye 앱 기획서", 44, INK, True, 0), ("관리자 · 스태프 · 보호자 기능 명세", 36, ACCENT, True, 0)])
     text(s, MX, 4.15, 11.5, 0.9, [("한 데이터, 세 개의 화면 — 관제는 빠르게, 현장은 한 번에, 보호자는 안심하게.", 16, GRAY, False)])
     hline(s, MX, 5.35, CW, INK, 0.02)
-    facts = [("3개 표면", "관리자 웹 · 스태프 앱 · 보호자 앱"), (f"{n_core} + {n_extra}개 기능", "핵심 · 부가 · P0~P2 우선순위"), ("7개 이벤트", "알림 · 공유 규칙 정의"), ("비의료", "바이탈 = 웰니스 참고값")]
+    facts = [
+        ("3개 표면", "관리자 웹 · 스태프 앱 · 보호자 앱"),
+        (f"{n_core} + {n_extra}개 기능", "핵심 · 부가 · P0~P2 우선순위"),
+        ("NPU 카메라 ODM", "바이탈형 1,000대 · Wi-Fi+PoE"),
+        ("비의료", "바이탈 = 웰니스 참고값"),
+    ]
     for i, (big, small) in enumerate(facts):
         x = MX + i * 3.0
         text(s, x, 5.6, 2.9, 0.6, [(big, 22, ACCENT if i == 0 else INK, True)])
@@ -246,13 +251,14 @@ def build():
         ("05", "부가 기능", "공통 C-01 ~ C-14 · 표면별 A-16~ · S-13~ · G-13~ · 메뉴 점검 결과"),
         ("06", "공통 규칙", "이벤트 · 알림 정의 · 비기능 요구사항"),
         ("07", "릴리스", "MVP → P1 → P2 · 수용 기준 · KPI"),
+        ("08", "NPU 카메라 ODM", "바이탈형 · 브라켓 전제 웨지 · 역할 · 비용 · 일정"),
     ]
     for i, (n, h, d) in enumerate(toc):
-        y = 1.85 + i * 0.68
-        text(s, MX, y, 0.8, 0.6, [(n, 22, ACCENT, True)])
-        text(s, MX + 1.0, y + 0.05, 3.0, 0.6, [(h, 17, INK, True)])
-        text(s, MX + 4.0, y + 0.12, 7.9, 0.6, [(d, 13, GRAY, False)])
-        hline(s, MX, y + 0.6, CW)
+        y = 1.72 + i * 0.60
+        text(s, MX, y, 0.8, 0.55, [(n, 20, ACCENT, True)])
+        text(s, MX + 1.0, y + 0.02, 3.0, 0.55, [(h, 15, INK, True)])
+        text(s, MX + 4.0, y + 0.08, 7.9, 0.55, [(d, 12, GRAY, False)])
+        hline(s, MX, y + 0.52, CW)
 
     # ===== 01 공통 =====
     page += 1
@@ -281,8 +287,8 @@ def build():
     s = new_slide(prs)
     frame(s, page, "01 · 공통", "시스템 구성 — 수집 → 판단 → 행동 → 공유")
     flow = [
-        ("수집", "카메라(RTSP/ONVIF)\nFMCW 바이탈 센서\n녹화(NVR)", SAND),
-        ("판단", "검출 · 추적\n이벤트 룰 · 임계값\n바이탈 추론(웰니스)", SAND),
+        ("수집", "NPU 카메라(ODM)\nWi-Fi+PoE · FMCW\n이벤트·클립 업로드", SAND),
+        ("판단", "기기 내 검출·추적\n서버 이벤트 룰\n바이탈(웰니스)", SAND),
         ("행동", "관리자 관제 웹\n스태프 앱 알림\n처리 · 케어 로그", ACCENT_WASH),
         ("공유", "CareReport 검수\n보호자 안심 링크\n졸업 리포트", ACCENT_WASH),
     ]
@@ -557,6 +563,133 @@ def build():
     ]
     table(s, MX, 1.85, cols, rows, 0.85, body=12)
     text(s, MX, 6.2, CW, 0.5, [("목표값은 오픈 후 D+30 리뷰에서 확정합니다. 상세 서비스 범위 · IT 툴은 별도 문서(PET-Aeye_서비스범위_IT툴_기획서_초안.md)를 따릅니다.", 11, GRAY, False)])
+
+    # ===== 08 NPU 카메라 ODM =====
+    page += 1
+    section_divider(prs, "08 · NPU 카메라 ODM", "기기에서 추론하고, 앱은 의미만",
+                    ["바이탈형 단일 SKU · 1차 500 + 2차 500", "브라켓 전제 · 미니 웨지 본체", "역할 · 비용 · 일정"])
+
+    page += 1
+    s = new_slide(prs)
+    frame(s, page, "08 · NPU 카메라 ODM", "요청 개요 — 바이탈형 일체형 IP 카메라")
+    cols = [("항목", 2.4), ("내용", 9.53)]
+    rows = [
+        ("제품 (가칭)", "PET-Aeye NPU Camera · Wi-Fi + 이더넷 + PoE(802.3af) 단일 제품"),
+        ("칩 · 추론", "Axera AX630C(또는 동등) · 기기 내 탐지·포즈·추적 → 결과·이벤트만 서버 전송"),
+        ("주력 SKU", "바이탈형 = NPU + 60GHz FMCW · JSON/MQTT API · 전량 동일 SKU"),
+        ("수량", "1차 약 500대(2027 · 영종·홈) · 2차 약 500대(횡성 전) · 합 약 1,000대"),
+        ("샘플", "EVT/DVT 바이탈 20~50대 · AI · OTA · 레이더·차별 기능 검증"),
+        ("펌웨어", "OTA 필수 · AI 모델(.axmodel)은 발주처 제공 · 서명·롤백"),
+        ("관련 RFQ", "doc/PET-Aeye_NPU카메라_ODM_견적요청서_초안.md"),
+    ]
+    table(s, MX, 1.75, cols, rows, 0.58, body=12)
+    text(s, MX, 6.35, CW, 0.4, [("바이탈 = 웰니스 참고값(비의료). 표준형(레이더 없음)은 비교용 단가만 요청 · 발주 의무 없음.", 11, GRAY, False)])
+
+    page += 1
+    s = new_slide(prs)
+    frame(s, page, "08 · NPU 카메라 ODM", "역할 분담 — ODM ↔ 발주처(PET-Aeye)")
+    cols = [("영역", 2.2), ("ODM (기기)", 4.9), ("발주처 (우리)", 4.83)]
+    rows = [
+        ("하드웨어", "미니 웨지·브라켓·셔터·레이더 · KC", "사양·목표 단가 · BOM 승인"),
+        ("AI", "NPU 런타임 · .axmodel 로드·추론", "학습 · Pulsar2 변환 · OTA 배포"),
+        ("설정·제어 API", "수신·적용·상태 조회 구현", "스키마·인증 정의 · 앱/서버 중계"),
+        ("텔레메트리", "비전·레이더·모드 JSON → 우리 서버만", "수집 · Stay 매핑 · 알림 문구"),
+        ("OTA", "기기 에이전트 · 서명 검증·롤백", "OTA 서버 · 카나리 · 키 관리"),
+        ("차별 기능", "모드·외출·블러·클립·폴백 실행", "정책·UI · 일일 카드·그래프"),
+        ("앱·관제", "불필요 (기기만)", "관리자 · 스태프 · 보호자 전 화면"),
+    ]
+    table(s, MX, 1.75, cols, rows, 0.58, body=11)
+    text(s, MX, 6.35, CW, 0.4, [("앱이 칩을 직접 호출하지 않습니다. 설정(호텔/홈·외출·블러 등)은 전부 서버 → 기기 API.", 11, GRAY, False)])
+
+    page += 1
+    s = new_slide(prs)
+    frame(s, page, "08 · NPU 카메라 ODM", "브라켓 전제 — 벽 + 천장 겸용 마운트")
+    cols = [("항목", 2.3), ("기준", 9.63)]
+    rows = [
+        ("원칙", "동일 본체 · 벽면·천장(면) 마운트 모두 지원 · 키트만 분기"),
+        ("본체", "미니 웨지 · 단일 마운트 페이스 · 후면 배선 · 화면 회전(corridor)"),
+        ("B-Wall", "벽 마운트 · 오픈 룸 1.4~1.7m 하향 · 룸당 1대"),
+        ("B-Ceiling", "천장 면부착 · 하향 · 한 공간=한 시야일 때만"),
+        ("B-Gable", "케이지 지붕 안쪽(천장형) · 칸당 1대 · 큰 구멍 X"),
+        ("B-Frame / Home", "철망 클램프 · 홈은 벽 또는 천장"),
+        ("운용", "브라켓 고정 · 본체만 교체 · 벽↔천장 키트 교체로 전환"),
+    ]
+    table(s, MX, 1.7, cols, rows, 0.58, body=12)
+    text(s, MX, 6.3, CW, 0.4, [("RFQ §3.1 · 펫호텔 권장: 오픈룸=벽 · 케이지=천장형 면부착 · 본체는 하나.", 11, GRAY, False)])
+
+    page += 1
+    s = new_slide(prs)
+    frame(s, page, "08 · NPU 카메라 ODM", "하드웨어 · 차별 기능 (펌웨어 기본 포함)")
+    box(s, MX, 1.75, 5.9, 4.85, SAND)
+    text(s, MX + 0.25, 1.9, 5.4, 0.4, [("하드웨어 (목표)", 14, ACCENT, True)])
+    text(s, MX + 0.25, 2.4, 5.4, 3.9, [
+        ("· 4MP · 1/1.8\"급 저조도 · 850nm IR", 12, INK, False, 5),
+        ("· Wi-Fi 6 + 유선 랜 + PoE 단일 기판", 12, INK, False, 5),
+        ("· 미니 웨지 + 브라켓 · 물리 셔터", 12, INK, False, 5),
+        ("· 60GHz FMCW · 재실·호흡·미동", 12, INK, False, 5),
+        ("· 온습도 · 촬영 LED · 셔터 상태 보고", 12, INK, False, 5),
+        ("· RTSP(H.265) · 사람 블러 on/off", 12, INK, False),
+    ])
+    box(s, 6.85, 1.75, 5.78, 4.85, ACCENT_WASH)
+    text(s, 7.1, 1.9, 5.3, 0.4, [("차별 기능 §4.5 (ODM 실행)", 14, ACCENT, True)])
+    text(s, 7.1, 2.4, 5.3, 3.9, [
+        ("· 호텔 / 홈 모드 프로필", 12, INK, False, 5),
+        ("· 외출 모드 + 셔터 연동", 12, INK, False, 5),
+        ("· 이벤트 클립 · 회선 폴백 재전송", 12, INK, False, 5),
+        ("· 수면·활동 시계열 필드 보고", 12, INK, False, 5),
+        ("· (가산점) 홈 모드 양방향 음성", 12, INK, False, 5),
+        ("· Guard·브라켓 키트 = 분리 견적", 12, INK, False),
+    ])
+
+    page += 1
+    s = new_slide(prs)
+    frame(s, page, "08 · NPU 카메라 ODM", "비용 ① — 대당 원가 · 목표 단가 (내부 가정)")
+    cols = [("등급", 2.0), ("구성", 4.5), ("대당 원가 (대략)", 2.6), ("비고", 2.83)]
+    rows = [
+        ("기본형", "NPU only", "약 4~4.5만원", "비교 · 발주 안 함"),
+        ("표준형", "NPU · Wi-Fi+PoE", "약 7~7.7만원 / ~10.3만원*", "*통합형 산정용"),
+        ("바이탈형 ★", "표준 + 60GHz FMCW", "약 10.5~15만원", "주력 · RFQ 목표"),
+        ("RFQ 목표", "로트 500 · 누적 1,000대", "USD 85~110 / 12~15만원대", "VAT·관세 별도"),
+    ]
+    table(s, MX, 1.75, cols, rows, 0.62, body=12)
+    text(s, MX, 4.55, CW, 2.2, [
+        ("* 영종·횡성 CAPEX 표의 NPU 통합형 대당 약 10.3만원은 Wi-Fi+PoE 기준(표준형 근처). 바이탈 전량 발주 시 대당·합계는 ODM 회신으로 갱신.", 12, GRAY, False, 6),
+        ("NRE(개발·금형·OTA·바이탈 API·KC·샘플)는 홈·영종·횡성이 공유 — 시설 CAPEX에서 제외하고 별도 항으로 견적.", 12, GRAY, False, 6),
+        ("견적 요청: 500 / 1,000 / 3,000대 단가 · OTA 포함·미포함 차액 · NRE 항목별.", 12, INK, False),
+    ])
+
+    page += 1
+    s = new_slide(prs)
+    frame(s, page, "08 · NPU 카메라 ODM", "비용 ② — 시설 CAPEX (카메라 중심 · NRE 제외)")
+    cols = [("시설", 2.3), ("NPU 대수 (대략)", 2.5), ("카메라·구축 합 (대략)", 3.5), ("비고", 3.63)]
+    rows = [
+        ("영종 펫호텔", "실내 150 · 실외 시중 6", "약 0.80억 (v0.4)", "Wi-Fi 연결 · 관제 최소"),
+        ("횡성 펫 리조트", "실내 310 · 실외 30", "카메라 구성 문서 기준", "PoE · IT 거점·GPU 별도"),
+        ("홈서비스", "구독 대수에 따름", "대당 원가 × 대수", "클라우드 OTA"),
+        ("ODM 1·2차", "합 약 1,000대 바이탈", "대당 × 1,000 + NRE", "동일 SKU 분할 납품"),
+    ]
+    table(s, MX, 1.75, cols, rows, 0.65, body=12)
+    text(s, MX, 4.7, CW, 2.0, [
+        ("근거: PET-Aeye_CCTV_서버_비용산정_초안.md · 횡성펫리조트_카메라_구성_초안.md · 홈서비스_기획_초안.md", 11, GRAY, False, 6),
+        ("횡성 HQ IT(서버실·관제·GPU·사내 LLM 등)는 카메라 CAPEX와 별도(개관 시 약 4.3~6.0억 구간 · 문서 참고).", 12, INK, False, 6),
+        ("마스터 '약 1.7억' 서버형 숫자는 NPU 양산 확정 후 본 기준으로 교체 예정.", 11, GRAY, False),
+    ])
+
+    page += 1
+    s = new_slide(prs)
+    frame(s, page, "08 · NPU 카메라 ODM", "일정 · 견적 회신 요청 항목")
+    cols = [("마일스톤", 3.0), ("목표", 4.0), ("산출물", 4.93)]
+    rows = [
+        ("EVT 샘플", "+8~12주 (계약 후)", "바이탈 동작 · 영상·추론 · 레이더"),
+        ("DVT + 시연", "+4~8주", "OTA · API · 모드·블러·폴백 · 온습도"),
+        ("1차 양산", "2027", "바이탈 약 500대 · KC(레이더 포함)"),
+        ("2차 양산", "횡성 준공 전", "바이탈 약 500대 · 동일 SKU"),
+    ]
+    table(s, MX, 1.75, cols, rows, 0.55, body=12)
+    text(s, MX, 4.3, CW, 2.4, [
+        ("회신에 반드시: 회사·실적 · 사양 대비표 · §6 견적 · MOQ·결제 · 일정 · OTA 차액 · 바이탈 모듈·API · 차별 기능 · 설정 API · Longevity", 12, INK, False, 6),
+        ("발송 전: 법인·담당 · NDA · 목표 단가 대외 공개 범위 확정. 본 RFQ는 발주 확정 아님.", 12, GRAY, False),
+    ])
 
     prs.save(OUT)
     print(f"saved: {OUT}  slides={len(prs.slides)}  core={n_core}  extra={n_extra}")

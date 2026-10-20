@@ -1,15 +1,22 @@
+.env
+data/
+models/
+node_modules/
+__pycache__/
+target/
+.DS_Store
+Thumbs.db
+
 # PDF text extraction / local tooling
 doc/_tmp_pdf/
 doc/_extracted/
 doc/_extracted2/
+doc/_refs_wedge_cams/
+
 # render / verification scratch
 doc/_chk/
 doc/_check/
 doc/_chk*.py
-**/node_modules/
-__pycache__/
-.DS_Store
-Thumbs.db
 
 # dog-detect: 영상, 라벨, 학습 산출물, CVAT 클론
 apps/dog-detect/.env

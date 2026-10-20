@@ -3,7 +3,7 @@
 > 버전: v0.1 · 2026-10-17 · 내부 논의용  
 > 관련: `기획서_파우코리아펫호텔_PET-Aeye_마스터.md` (사업·캠퍼스) · `PET-Aeye_리트로핏_설치계획_초안.md` (현장 설치)  
 > 목업: `doc/_mockups/` (구성 예시 · 제품 UI 목업)  
-> 앱 기능 명세 덱: `PLAN_PET-Aeye_apps_spec_v0.2.pptx` (`_build_apps_spec_pptx.py`, 36장 · 핵심 39 + 부가 29개 기능 · 메뉴 구성 포함)  
+> 앱 기능 명세 덱: `PLAN_PET-Aeye_apps_spec_v0.2.pptx` (`_build_apps_spec_pptx.py`, 46장 · 핵심 39 + 부가 29개 기능 · 메뉴 구성 · **§08 NPU 카메라 ODM·방견 하우징·비용**)  
 > **이 문서는 마스터 기획서와 분리**합니다. 서비스·화면·툴 스택만 다룹니다.
 
 ---

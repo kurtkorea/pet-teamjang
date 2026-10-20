@@ -1,0 +1,8 @@
+{
+  "name": "pet-ai-api",
+  "private": true,
+  "type": "module",
+  "scripts": { "dev": "tsx src/index.ts", "build": "tsc" },
+  "dependencies": { "@fastify/cors": "latest", "@fastify/websocket": "latest", "fastify": "latest", "ioredis": "latest", "pg": "latest" },
+  "devDependencies": { "@types/node": "latest", "@types/pg": "latest", "tsx": "latest", "typescript": "latest" }
+}

@@ -1,0 +1,13 @@
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+redis==5.2.1
+numpy==2.1.1
+opencv-python-headless==4.10.0.84
+psycopg[binary]==3.2.3
+ultralytics==8.3.70
+lap==0.5.13
+requests==2.32.3
+onvif-zeep==0.2.12
+# Install torch/ultralytics with the CUDA-compatible build on the host GPU.
+# torch
+# ultralytics
