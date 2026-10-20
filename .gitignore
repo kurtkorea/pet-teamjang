@@ -5,3 +5,18 @@ doc/_extracted2/
 **/node_modules/
 .DS_Store
 Thumbs.db
+
+# dog-detect: 영상, 라벨, 학습 산출물, CVAT 클론
+apps/dog-detect/.env
+apps/dog-detect/.venv/
+apps/dog-detect/.cvat/
+apps/dog-detect/runs/
+apps/dog-detect/**/*.pt
+apps/dog-detect/**/__pycache__/
+apps/dog-detect/*.egg-info/
+apps/dog-detect/data/videos/*
+!apps/dog-detect/data/videos/.gitkeep
+apps/dog-detect/data/autolabel/*
+!apps/dog-detect/data/autolabel/.gitkeep
+apps/dog-detect/data/reviewed/*
+!apps/dog-detect/data/reviewed/.gitkeep

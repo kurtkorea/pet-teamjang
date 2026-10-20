@@ -1,0 +1,15 @@
+.env
+.venv/
+.cvat/
+runs/
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.pt
+
+data/videos/*
+!data/videos/.gitkeep
+data/autolabel/*
+!data/autolabel/.gitkeep
+data/reviewed/*
+!data/reviewed/.gitkeep
