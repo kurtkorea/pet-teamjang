@@ -6,7 +6,7 @@
 > 전체 사업 범위(펫장례 포함): `프로젝트_범위_확장_초안.md` (별도 유지)  
 > 시설 근거: **인수 대상 실물 자산(영종 운남동 NPL 펫호텔)** · 참고: `펫호텔/펫텔 사업계획서_리조이스_final_250323_260704_124640.pdf`
 > 인수 실사·밸류에이션: `NPL_펫호텔_인수실사_밸류에이션_초안.md` · PET-Aeye 설치: `PET-Aeye_리트로핏_설치계획_초안.md` · CCTV·서버 비용: `PET-Aeye_CCTV_서버_비용산정_초안.md` · 관제 SW 구성: `PET-Aeye_관제SW_시스템구성_제안.md` · 구독 요금: `PET-Aeye_구독요금_산정_초안.md` · 홈서비스: `PET-Aeye_홈서비스_기획_초안.md` · 센서 기술: FMCW 라이다 반도체(기반 기술 확보)  
-> 넓은 공간(플레이그라운드·루프탑) BLE 개체 추적: `PET-Aeye_넓은공간_BLE개체추적_초안.md` (Minew MWB01 + MOKO MKGW1-BW)  
+> 넓은 공간(플레이그라운드·루프탑) BLE 개체 추적: `PET-Aeye_넓은공간_BLE개체추적_초안.md` **v0.3** (MWB01 + MKGW1-BW · BOM·KPI·MQTT)  
 > 서비스 범위·IT 툴(별도): `PET-Aeye_서비스범위_IT툴_기획서_초안.md` · UI 목업: `doc/_mockups/`  
 > 제품 코드: `peti-mvp` (제품명 PET-Aeye) · 통화: KRW
 

@@ -891,7 +891,7 @@ def build():
     except OSError:
         text(s, MX, 4.2, CW, 0.4, [("배치도 · 목줄 케이스: assets/ble_tracking/", 12, GRAY, False)])
     text(s, MX, 6.55, CW, 0.35, [
-        ("케이스: 목줄에 끼워 몸쪽 밀착(매달림·키링 금지 · 상대견 물어뜯김). 상세: BLE 초안 v0.2.", 11, GRAY, False),
+        ("케이스: 목줄 관통·몸쪽 밀착. BOM·KPI·MQTT·함체는 BLE 초안 v0.3.", 11, GRAY, False),
     ])
 
     # Event -> action

@@ -704,16 +704,50 @@ def build():
     cols = [("항목", 2.2), ("내용", 9.73)]
     rows = [
         ("문제", "지상 플레이그라운드 · 옥상 루프탑은 원거리·혼잡으로 비전만으로 개체 ID 유지가 어려움"),
-        ("태그", "Minew MWB01 · Φ31mm · AirTag 폼팩터 · IP67 · BLE 5.0 · 교체형 배터리"),
-        ("게이트웨이", "MOKO MKGW1-BW · BLE 스캔 → Wi-Fi/Ethernet(MQTT) · PoE · 야외는 IP65 함체"),
-        ("착용", "목줄 관통·몸쪽 밀착 실리콘 케이스(매달림·키링 금지) · 입장 지급 · 퇴장 회수·소독"),
-        ("역할 분담", "카메라=행동·이상행동 · BLE=개체·구역 체류 · 동일 Stay/pet_id 조인"),
-        ("문서", "doc/PET-Aeye_넓은공간_BLE개체추적_초안.md · assets/ble_tracking/"),
+        ("태그", "Minew MWB01 · iBeacon · adv 300ms · UUID/Major/Minor · MAC allowlist"),
+        ("게이트웨이", "MOKO MKGW1-BW · MQTT/TLS · PoE · IP20→옥외 IP65 함체 필수"),
+        ("착용", "목줄 관통·몸쪽 밀착 실리콘 케이스(매달림·키링 금지)"),
+        ("측위", "L1 Zone + L2 Gate (cm급·UWB 아님) · 이탈 알림 ≤15s 목표"),
+        ("문서", "PET-Aeye_넓은공간_BLE개체추적_초안.md v0.3 · assets/ble_tracking/"),
     ]
     table(s, MX, 1.7, cols, rows, 0.58, body=12)
     text(s, MX, 5.7, CW, 1.0, [
-        ("앱 반영: 스태프 — 태그 바인딩·이탈 알림 · 관제 — 구역 맵 · 보호자 — 플레이 중 위치 요약(선택).", 12, INK, False, 4),
-        ("카메라 CAPEX와 별도. 구역당 약 383만원 가정 · 케이스는 목줄 관통·몸쪽 밀착형만.", 11, GRAY, False),
+        ("앱: bind/unbind · zone.enter/exit · geofence.breach · gw.offline · 비전 조인(stay_id).", 12, INK, False, 4),
+        ("구역당 BOM 약 496만원 가정(태그·케이스·GW·함체·PoE·데스크). 카메라 CAPEX 별도.", 11, GRAY, False),
+    ])
+
+    page += 1
+    s = new_slide(prs)
+    frame(s, page, "09 · 넓은 공간 BLE", "BOM · KPI · 이벤트 (v0.3)")
+    box(s, MX, 1.7, 3.9, 4.9, SAND)
+    text(s, MX + 0.2, 1.85, 3.5, 0.35, [("구역당 BOM", 14, ACCENT, True)])
+    text(s, MX + 0.2, 2.35, 3.5, 4.0, [
+        ("· MWB01 ×80", 12, INK, False, 4),
+        ("· 관통 케이스 ×120", 12, INK, False, 4),
+        ("· MKGW1-BW ×5", 12, INK, False, 4),
+        ("· IP65 함체·폴·PoE", 12, INK, False, 4),
+        ("· 데스크 키트 · 목줄", 12, INK, False, 4),
+        ("· 합 ≈ 496만원", 12, ACCENT, True),
+    ])
+    box(s, 4.85, 1.7, 3.9, 4.9, ACCENT_WASH)
+    text(s, 5.05, 1.85, 3.5, 0.35, [("KPI (MVP)", 14, ACCENT, True)])
+    text(s, 5.05, 2.35, 3.5, 4.0, [
+        ("· Zone L1 + Gate L2", 12, INK, False, 4),
+        ("· 게이트 검출 ≥95%", 12, INK, False, 4),
+        ("· 이탈 알림 ≤15s", 12, INK, False, 4),
+        ("· 동시 태그 ≥80", 12, INK, False, 4),
+        ("· GW 가용 ≥99%", 12, INK, False, 4),
+        ("· UWB/AoA = Phase2", 12, GRAY, False),
+    ])
+    box(s, 9.0, 1.7, 3.63, 4.9, SAND)
+    text(s, 9.2, 1.85, 3.25, 0.35, [("도메인 이벤트", 14, ACCENT, True)])
+    text(s, 9.2, 2.35, 3.25, 4.0, [
+        ("· ble.tag.bind/unbind", 11, INK, False, 4),
+        ("· ble.zone.enter/exit", 11, INK, False, 4),
+        ("· ble.geofence.breach", 11, INK, False, 4),
+        ("· ble.tag.missing", 11, INK, False, 4),
+        ("· ble.gw.offline", 11, INK, False, 4),
+        ("· 비전 조인 stay_id", 11, INK, False),
     ])
 
     page += 1
