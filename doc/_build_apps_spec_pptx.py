@@ -9,11 +9,12 @@ from _build_master_pptx import (
     RULE, SAND, STAFF_IMG, W, WHITE, I, box, dot, hline, new_slide, section_divider, table, text,
 )
 
-SPEC_VERSION = "0.2"
+SPEC_VERSION = "0.3"
 DOC_DATE = "2026.10"
 OUT = rf"D:\dev_pawkorea\pet-teamjang\doc\PLAN_PET-Aeye_apps_spec_v{SPEC_VERSION}.pptx"
-FOOTER = "PET-Aeye 앱 기획서  ·  기능 명세 · NPU 카메라 ODM"
+FOOTER = "PET-Aeye 앱 기획서  ·  기능 명세 · NPU ODM · BLE 추적"
 ARCH_IMG = r"D:\dev_pawkorea\pet-teamjang\doc\_mockups\out_arch_system.png"
+BLE_ASSETS = r"D:\dev_pawkorea\pet-teamjang\assets\ble_tracking"
 
 SPEC_COLS = [("ID", 0.85), ("기능", 2.35), ("상세 명세", 6.75), ("우선", 0.8), ("비고", 1.18)]
 
@@ -232,7 +233,7 @@ def build():
         ("3개 표면", "관리자 웹 · 스태프 앱 · 보호자 앱"),
         (f"{n_core} + {n_extra}개 기능", "핵심 · 부가 · P0~P2 우선순위"),
         ("NPU 카메라 ODM", "바이탈형 1,000대 · Wi-Fi+PoE"),
-        ("비의료", "바이탈 = 웰니스 참고값"),
+        ("넓은 공간 BLE", "MWB01 + MKGW1-BW"),
     ]
     for i, (big, small) in enumerate(facts):
         x = MX + i * 3.0
@@ -252,13 +253,14 @@ def build():
         ("06", "공통 규칙", "이벤트 · 알림 정의 · 비기능 요구사항"),
         ("07", "릴리스", "MVP → P1 → P2 · 수용 기준 · KPI"),
         ("08", "NPU 카메라 ODM", "바이탈형 · 브라켓 전제 웨지 · 역할 · 비용 · 일정"),
+        ("09", "넓은 공간 BLE", "MWB01 목줄 태그 · MKGW1-BW · 배치 · 체크인"),
     ]
     for i, (n, h, d) in enumerate(toc):
-        y = 1.72 + i * 0.60
-        text(s, MX, y, 0.8, 0.55, [(n, 20, ACCENT, True)])
-        text(s, MX + 1.0, y + 0.02, 3.0, 0.55, [(h, 15, INK, True)])
-        text(s, MX + 4.0, y + 0.08, 7.9, 0.55, [(d, 12, GRAY, False)])
-        hline(s, MX, y + 0.52, CW)
+        y = 1.65 + i * 0.54
+        text(s, MX, y, 0.8, 0.5, [(n, 18, ACCENT, True)])
+        text(s, MX + 1.0, y + 0.02, 3.0, 0.5, [(h, 14, INK, True)])
+        text(s, MX + 4.0, y + 0.06, 7.9, 0.5, [(d, 12, GRAY, False)])
+        hline(s, MX, y + 0.48, CW)
 
     # ===== 01 공통 =====
     page += 1
@@ -689,6 +691,59 @@ def build():
     text(s, MX, 4.3, CW, 2.4, [
         ("회신에 반드시: 회사·실적 · 사양 대비표 · §6 견적 · MOQ·결제 · 일정 · OTA 차액 · 바이탈 모듈·API · 차별 기능 · 설정 API · Longevity", 12, INK, False, 6),
         ("발송 전: 법인·담당 · NDA · 목표 단가 대외 공개 범위 확정. 본 RFQ는 발주 확정 아님.", 12, GRAY, False),
+    ])
+
+    # ===== 09 넓은 공간 BLE =====
+    page += 1
+    section_divider(prs, "09 · 넓은 공간 BLE", "카메라는 행동, BLE는 개체 ID",
+                    ["Minew MWB01 목줄 태그", "MOKO MKGW1-BW 게이트웨이", "플레이그라운드 · 루프탑"])
+
+    page += 1
+    s = new_slide(prs)
+    frame(s, page, "09 · 넓은 공간 BLE", "왜 · 무엇 — 넓은 야외 ID 유지")
+    cols = [("항목", 2.2), ("내용", 9.73)]
+    rows = [
+        ("문제", "지상 플레이그라운드 · 옥상 루프탑은 원거리·혼잡으로 비전만으로 개체 ID 유지가 어려움"),
+        ("태그", "Minew MWB01 · Φ31mm · AirTag 폼팩터 · IP67 · BLE 5.0 · 교체형 배터리"),
+        ("게이트웨이", "MOKO MKGW1-BW · BLE 스캔 → Wi-Fi/Ethernet(MQTT) · PoE · 야외는 IP65 함체"),
+        ("착용", "AirTag용 실리콘 홀더 → 강아지 목줄 클립 · 입장 지급 · 퇴장 회수·소독"),
+        ("역할 분담", "카메라=행동·이상행동 · BLE=개체·구역 체류 · 동일 Stay/pet_id 조인"),
+        ("문서", "doc/PET-Aeye_넓은공간_BLE개체추적_초안.md · assets/ble_tracking/"),
+    ]
+    table(s, MX, 1.7, cols, rows, 0.58, body=12)
+    text(s, MX, 5.7, CW, 1.0, [
+        ("앱 반영: 스태프 — 태그 바인딩·이탈 알림 · 관제 — 구역 맵 · 보호자 — 플레이 중 위치 요약(선택).", 12, INK, False, 4),
+        ("카메라 CAPEX와 별도 라인. 구역당 약 365만원 가정(태그 80 + GW 5 + 공사).", 11, GRAY, False),
+    ])
+
+    page += 1
+    s = new_slide(prs)
+    frame(s, page, "09 · 넓은 공간 BLE", "설치 배치 — 플레이그라운드 · 루프탑")
+    try:
+        s.shapes.add_picture(BLE_ASSETS + r"\ble_playground_gateway_plan.jpg", I(MX), I(1.75), width=I(5.9))
+        s.shapes.add_picture(BLE_ASSETS + r"\ble_rooftop_gateway_plan.jpg", I(6.85), I(1.75), width=I(5.78))
+    except OSError:
+        text(s, MX, 2.5, CW, 0.4, [("배치도: assets/ble_tracking/", 12, GRAY, False)])
+    text(s, MX, 5.85, 5.9, 0.9, [
+        ("지상 플레이그라운드", 13, ACCENT, True, 3),
+        ("GW 4~6대 · 실효 반경 25~35m 겹침 · 입장구 GW 필수", 11, INK, False),
+    ])
+    text(s, 6.85, 5.85, 5.78, 0.9, [
+        ("옥상 루프탑", 13, ACCENT, True, 3),
+        ("GW 3~4대 · 방수함·차양 · PoE 유선 우선", 11, INK, False),
+    ])
+
+    page += 1
+    s = new_slide(prs)
+    frame(s, page, "09 · 넓은 공간 BLE", "목줄 장착 · 체크인 운영")
+    try:
+        s.shapes.add_picture(BLE_ASSETS + r"\ble_collar_silicone_airtag_holder.jpg", I(MX), I(1.75), width=I(4.2))
+        s.shapes.add_picture(BLE_ASSETS + r"\ble_checkin_collar_attach_steps.jpg", I(5.15), I(1.75), width=I(7.48))
+    except OSError:
+        text(s, MX, 2.5, CW, 0.4, [("목줄·체크인 예시: assets/ble_tracking/", 12, GRAY, False)])
+    text(s, MX, 5.7, CW, 1.0, [
+        ("1) MWB01 → 실리콘 홀더  2) 목줄 클립  3) 앱에서 태그↔예약·개체 바인딩  4) 퇴장 시 회수·소독·보관", 13, INK, False, 4),
+        ("기능 후보: S-체크인 보조에 태그 스캔 · A-장비 관리에 GW 등록 · Stay에 ble_tag_id 필드.", 11, GRAY, False),
     ])
 
     prs.save(OUT)

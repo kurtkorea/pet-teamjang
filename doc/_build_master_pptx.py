@@ -30,11 +30,12 @@ CW = 11.93
 FONT = "Malgun Gothic"
 
 # ── 문서 버전 관리 ─────────────────────────────────────────────
-VERSION = "1.3"          # 버전 올릴 때 여기만 수정 (커버 · 파일명 자동 반영)
+VERSION = "1.3.1"        # 버전 올릴 때 여기만 수정 (커버 · 파일명 자동 반영)
 DOC_DATE = "2026.10"     # 표기용 발행 월
 # ──────────────────────────────────────────────────────────────
 OUT = rf"D:\dev_pawkorea\pet-teamjang\doc\PLAN_PAWKOREA_pet_hotel_PET-Aeye_master_v{VERSION}.pptx"
 MOCK = r"D:\dev_pawkorea\pet-teamjang\doc\_mockups"
+BLE_ASSETS = r"D:\dev_pawkorea\pet-teamjang\assets\ble_tracking"
 ADMIN_IMG = MOCK + r"\out_admin_wall.png"
 STAFF_IMG = MOCK + r"\out_staff_app.png"
 GUARD_IMG = MOCK + r"\out_guardian_app.png"
@@ -860,14 +861,37 @@ def build():
         ("소형 · 중형 객실", "2F", "86실 · 객실당 1대", "위탁 본체 관제", "배정 룸 라이브"),
         ("대형 · 패밀리 객실", "3F", "26실 · 객실당 1대 이상", "중대형 관제 · 우선 설치", "배정 룸 라이브"),
         ("라운지 · 플레이존", "2–3F", "구역당 1대 (PTZ)", "놀이 시간 관찰", "하이라이트 클립"),
+        ("옥상 · 넓은 플레이", "옥상·실외", "카메라 + BLE 태그", "개체 ID · 구역 체류", "위치 요약 · 하이라이트"),
         ("복도 · 이중문", "2–3F", "출입구별 1대", "탈출 방지 · 보안", "비노출"),
         ("프런트 · 스파 · 미용", "1F", "구역당 1대", "체크인 · 서비스 기록", "선택 노출"),
     ]
-    table(s, MX, 1.9, cols, rows, 0.62, body=13)
-    text(s, MX, 5.7, 11.9, 1.2, [
+    table(s, MX, 1.75, cols, rows, 0.55, body=12)
+    text(s, MX, 5.55, 11.9, 1.2, [
         ("함께 갖출 인프라", 13, ACCENT, True, 6),
-        ("PoE 스위치 · 녹화 스토리지(보존 기간에 맞춰 용량 산정) · 관제실 모니터 · 이중화된 인터넷 회선 · 정전 대비 UPS", 13, INK, False, 4),
-        ("최종 수량은 현장 실측과 화각 테스트 후 확정합니다.", 11, GRAY, False),
+        ("PoE 스위치 · 녹화 스토리지 · 관제실 모니터 · 이중화 회선 · UPS · (넓은 공간) BLE 게이트웨이 PoE", 13, INK, False, 4),
+        ("넓은 공간 BLE: Minew MWB01 + MOKO MKGW1-BW — 다음 슬라이드 · 문서 PET-Aeye_넓은공간_BLE개체추적_초안.md", 11, GRAY, False),
+    ])
+
+    # BLE outdoor tracking
+    page += 1
+    s = new_slide(prs)
+    frame(s, page, "PART 3 · PET-Aeye", "넓은 공간 BLE 개체 추적 — MWB01 + MKGW1-BW")
+    cols = [("구분", 2.0), ("제품", 3.2), ("역할", 6.73)]
+    rows = [
+        ("목줄 태그", "Minew MWB01", "입장 시 AirTag형 실리콘 홀더로 목줄 장착 · IP67 · 개체 ID"),
+        ("게이트웨이", "MOKO MKGW1-BW", "BLE 스캔 → MQTT/HTTP · PoE · 야외는 방수함"),
+        ("카메라", "NPU / 실외 CCTV", "행동 · 이상행동 · 보안 녹화 (비전)"),
+        ("PET-Aeye", "수집 · 바인딩", "태그↔Stay 조인 · 구역 체류 · 이탈 알림"),
+    ]
+    table(s, MX, 1.7, cols, rows, 0.48, body=12)
+    try:
+        s.shapes.add_picture(BLE_ASSETS + r"\ble_playground_gateway_plan.jpg", I(MX), I(4.0), width=I(3.9))
+        s.shapes.add_picture(BLE_ASSETS + r"\ble_rooftop_gateway_plan.jpg", I(4.85), I(4.0), width=I(3.9))
+        s.shapes.add_picture(BLE_ASSETS + r"\ble_collar_silicone_airtag_holder.jpg", I(9.0), I(4.0), width=I(3.63))
+    except OSError:
+        text(s, MX, 4.2, CW, 0.4, [("배치도 · 목줄 예시 이미지: assets/ble_tracking/", 12, GRAY, False)])
+    text(s, MX, 6.55, CW, 0.35, [
+        ("지상 플레이그라운드 · 옥상 루프탑: 입장~퇴장 동안 BLE로 ID 유지 · 카메라는 행동. 상세 배치·비용은 BLE 초안 문서.", 11, GRAY, False),
     ])
 
     # Event -> action
@@ -894,28 +918,34 @@ def build():
     s = new_slide(prs)
     frame(s, page, "PART 3 · PET-Aeye", "데이터는 Stay 하나로 연결합니다")
     chain_a = [("Guardian · Pet", "보호자 · 반려견"), ("Stay", "위탁 1건"), ("Room", "객실"), ("Camera", "카메라")]
-    chain_b = [("Camera", "영상 · 검출"), ("PetEvent", "행동 · 알림"), ("CareReport", "일일 요약"), ("Guardian Link", "보호자 열람")]
-    bw, bg = 1.38, 0.32
-    for row, chain in enumerate((chain_a, chain_b)):
-        y = 2.1 + row * 1.6
+    chain_b = [("PlayZone", "플레이 · 루프탑"), ("BLE Tag", "MWB01"), ("Gateway", "MKGW1-BW"), ("Stay 조인", "동일 ID")]
+    chain_c = [("Camera", "영상 · 검출"), ("PetEvent", "행동 · 알림"), ("CareReport", "일일 요약"), ("Guardian Link", "보호자 열람")]
+    bw, bg = 1.38, 0.28
+    for row, chain in enumerate((chain_a, chain_b, chain_c)):
+        y = 1.85 + row * 1.15
         for i, (name, sub) in enumerate(chain):
             x = MX + i * (bw + bg)
-            hot = name in ("Stay", "CareReport")
-            box(s, x, y, bw, 1.0, ACCENT if hot else WHITE)
-            text(s, x, y, bw, 1.0, [(name, 12, WHITE if hot else INK, True, 2), (sub, 10, ACCENT_DIM if hot else GRAY, False)], PP_ALIGN.CENTER, MSO_ANCHOR.MIDDLE)
+            hot = name in ("Stay", "CareReport", "Stay 조인")
+            box(s, x, y, bw, 0.9, ACCENT if hot else WHITE)
+            text(s, x, y, bw, 0.9, [(name, 11, WHITE if hot else INK, True, 2), (sub, 9, ACCENT_DIM if hot else GRAY, False)], PP_ALIGN.CENTER, MSO_ANCHOR.MIDDLE)
             if i < len(chain) - 1:
-                text(s, x + bw, y + 0.3, bg, 0.4, [("→", 14, GRAY, True)], PP_ALIGN.CENTER)
-    text(s, MX, 5.0, 6.3, 1.5, [("체크인 때 스태프가 반려견과 카메라 트랙을 연결합니다.", 13, INK, False, 4), ("이후 이벤트 · 리포트 · 열람 기록이 모두 같은 Stay에 쌓입니다.", 13, INK, False)])
-    vline(s, 7.35, 1.95, 4.6)
-    text(s, 7.7, 1.95, 4.9, 0.35, [("호텔 시스템과 엮는 연동 작업", 13, ACCENT, True)])
+                text(s, x + bw, y + 0.25, bg, 0.4, [("→", 12, GRAY, True)], PP_ALIGN.CENTER)
+    text(s, MX, 5.45, 6.3, 1.1, [
+        ("체크인 때 카메라 트랙을, 플레이존 입장 때 BLE 태그를 같은 Stay에 연결합니다.", 12, INK, False, 3),
+        ("이후 이벤트 · 리포트 · 열람이 모두 같은 Stay에 쌓입니다.", 12, INK, False),
+    ])
+    vline(s, 7.35, 1.85, 4.7)
+    text(s, 7.7, 1.85, 4.9, 0.35, [("호텔 시스템과 엮는 연동 작업", 13, ACCENT, True)])
     links = [
-        ("예약 → Stay", "예약 채널 확정 건으로 Stay 자동 생성"), ("케어 체크리스트", "급식 · 산책 · 배변 기록을 이벤트와 함께"),
-        ("구역(Zone) 규칙", "급식대 · 문 앞 등 구역별 알림"), ("열람 감사 로그", "보호자 · 스태프 영상 열람 기록"),
-        ("결제 → 옵션", "안심 서비스 결제 시 보호자 링크 활성화"),
+        ("예약 → Stay", "예약 확정 건으로 Stay 자동 생성"),
+        ("플레이존 BLE", "입장 시 MWB01 바인딩 · 퇴장 회수"),
+        ("구역(Zone) 규칙", "게이트 · 플레이존 · 이탈 알림"),
+        ("열람 감사 로그", "보호자 · 스태프 영상 열람 기록"),
+        ("결제 → 옵션", "안심 서비스 시 보호자 링크 활성화"),
     ]
     for i, (h, d) in enumerate(links):
-        y = 2.45 + i * 0.8
-        text(s, 7.7, y, 4.9, 0.7, [(h, 13, INK, True, 2), (d, 12, GRAY, False)])
+        y = 2.3 + i * 0.78
+        text(s, 7.7, y, 4.9, 0.7, [(h, 12, INK, True, 2), (d, 11, GRAY, False)])
         hline(s, 7.7, y + 0.68, 4.93)
 
     # Feature map summary (from 기능맵)
