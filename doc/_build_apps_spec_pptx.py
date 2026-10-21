@@ -706,14 +706,14 @@ def build():
         ("문제", "지상 플레이그라운드 · 옥상 루프탑은 원거리·혼잡으로 비전만으로 개체 ID 유지가 어려움"),
         ("태그", "Minew MWB01 · Φ31mm · AirTag 폼팩터 · IP67 · BLE 5.0 · 교체형 배터리"),
         ("게이트웨이", "MOKO MKGW1-BW · BLE 스캔 → Wi-Fi/Ethernet(MQTT) · PoE · 야외는 IP65 함체"),
-        ("착용", "AirTag용 실리콘 홀더 → 강아지 목줄 클립 · 입장 지급 · 퇴장 회수·소독"),
+        ("착용", "목줄 관통·몸쪽 밀착 실리콘 케이스(매달림·키링 금지) · 입장 지급 · 퇴장 회수·소독"),
         ("역할 분담", "카메라=행동·이상행동 · BLE=개체·구역 체류 · 동일 Stay/pet_id 조인"),
         ("문서", "doc/PET-Aeye_넓은공간_BLE개체추적_초안.md · assets/ble_tracking/"),
     ]
     table(s, MX, 1.7, cols, rows, 0.58, body=12)
     text(s, MX, 5.7, CW, 1.0, [
         ("앱 반영: 스태프 — 태그 바인딩·이탈 알림 · 관제 — 구역 맵 · 보호자 — 플레이 중 위치 요약(선택).", 12, INK, False, 4),
-        ("카메라 CAPEX와 별도 라인. 구역당 약 365만원 가정(태그 80 + GW 5 + 공사).", 11, GRAY, False),
+        ("카메라 CAPEX와 별도. 구역당 약 383만원 가정 · 케이스는 목줄 관통·몸쪽 밀착형만.", 11, GRAY, False),
     ])
 
     page += 1
@@ -735,15 +735,15 @@ def build():
 
     page += 1
     s = new_slide(prs)
-    frame(s, page, "09 · 넓은 공간 BLE", "목줄 장착 · 체크인 운영")
+    frame(s, page, "09 · 넓은 공간 BLE", "목줄 관통 케이스 · 체크인 (몸쪽 밀착)")
     try:
-        s.shapes.add_picture(BLE_ASSETS + r"\ble_collar_silicone_airtag_holder.jpg", I(MX), I(1.75), width=I(4.2))
+        s.shapes.add_picture(BLE_ASSETS + r"\ble_collar_slide_on_silicone_case.png", I(MX), I(1.75), width=I(4.2))
         s.shapes.add_picture(BLE_ASSETS + r"\ble_checkin_collar_attach_steps.jpg", I(5.15), I(1.75), width=I(7.48))
     except OSError:
-        text(s, MX, 2.5, CW, 0.4, [("목줄·체크인 예시: assets/ble_tracking/", 12, GRAY, False)])
+        text(s, MX, 2.5, CW, 0.4, [("목줄 케이스·체크인: assets/ble_tracking/", 12, GRAY, False)])
     text(s, MX, 5.7, CW, 1.0, [
-        ("1) MWB01 → 실리콘 홀더  2) 목줄 클립  3) 앱에서 태그↔예약·개체 바인딩  4) 퇴장 시 회수·소독·보관", 13, INK, False, 4),
-        ("기능 후보: S-체크인 보조에 태그 스캔 · A-장비 관리에 GW 등록 · Stay에 ble_tag_id 필드.", 11, GRAY, False),
+        ("1) MWB01 → 케이스 포켓  2) 목줄 띠를 좌우 루프에 관통(몸쪽 밀착)  3) 태그↔Stay 바인딩  4) 퇴장 회수·소독", 13, INK, False, 4),
+        ("금지: 키링·클립 매달림형(상대견 물어뜯김). 기능: 태그 스캔 · GW 등록 · Stay.ble_tag_id.", 11, GRAY, False),
     ])
 
     prs.save(OUT)

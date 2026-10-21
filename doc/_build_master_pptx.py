@@ -878,7 +878,7 @@ def build():
     frame(s, page, "PART 3 · PET-Aeye", "넓은 공간 BLE 개체 추적 — MWB01 + MKGW1-BW")
     cols = [("구분", 2.0), ("제품", 3.2), ("역할", 6.73)]
     rows = [
-        ("목줄 태그", "Minew MWB01", "입장 시 AirTag형 실리콘 홀더로 목줄 장착 · IP67 · 개체 ID"),
+        ("목줄 태그", "Minew MWB01", "목줄 관통·몸쪽 밀착 실리콘 케이스 · IP67 · 개체 ID"),
         ("게이트웨이", "MOKO MKGW1-BW", "BLE 스캔 → MQTT/HTTP · PoE · 야외는 방수함"),
         ("카메라", "NPU / 실외 CCTV", "행동 · 이상행동 · 보안 녹화 (비전)"),
         ("PET-Aeye", "수집 · 바인딩", "태그↔Stay 조인 · 구역 체류 · 이탈 알림"),
@@ -887,11 +887,11 @@ def build():
     try:
         s.shapes.add_picture(BLE_ASSETS + r"\ble_playground_gateway_plan.jpg", I(MX), I(4.0), width=I(3.9))
         s.shapes.add_picture(BLE_ASSETS + r"\ble_rooftop_gateway_plan.jpg", I(4.85), I(4.0), width=I(3.9))
-        s.shapes.add_picture(BLE_ASSETS + r"\ble_collar_silicone_airtag_holder.jpg", I(9.0), I(4.0), width=I(3.63))
+        s.shapes.add_picture(BLE_ASSETS + r"\ble_collar_slide_on_silicone_case.png", I(9.0), I(4.0), width=I(3.63))
     except OSError:
-        text(s, MX, 4.2, CW, 0.4, [("배치도 · 목줄 예시 이미지: assets/ble_tracking/", 12, GRAY, False)])
+        text(s, MX, 4.2, CW, 0.4, [("배치도 · 목줄 케이스: assets/ble_tracking/", 12, GRAY, False)])
     text(s, MX, 6.55, CW, 0.35, [
-        ("지상 플레이그라운드 · 옥상 루프탑: 입장~퇴장 동안 BLE로 ID 유지 · 카메라는 행동. 상세 배치·비용은 BLE 초안 문서.", 11, GRAY, False),
+        ("케이스: 목줄에 끼워 몸쪽 밀착(매달림·키링 금지 · 상대견 물어뜯김). 상세: BLE 초안 v0.2.", 11, GRAY, False),
     ])
 
     # Event -> action
