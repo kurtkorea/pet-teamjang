@@ -891,7 +891,7 @@ def build():
     except OSError:
         text(s, MX, 4.2, CW, 0.4, [("배치도 · 목줄 케이스: assets/ble_tracking/", 12, GRAY, False)])
     text(s, MX, 6.55, CW, 0.35, [
-        ("케이스: 목줄 관통·몸쪽 밀착. BOM·KPI·MQTT·함체는 BLE 초안 v0.3.", 11, GRAY, False),
+        ("케이스 밀착형 · BOM/KPI/MQTT · v0.4 혼잡슬롯·도킹·플레이리캡 — BLE 초안.", 11, GRAY, False),
     ])
 
     # Event -> action

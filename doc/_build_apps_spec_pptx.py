@@ -708,26 +708,26 @@ def build():
         ("게이트웨이", "MOKO MKGW1-BW · MQTT/TLS · PoE · IP20→옥외 IP65 함체 필수"),
         ("착용", "목줄 관통·몸쪽 밀착 실리콘 케이스(매달림·키링 금지)"),
         ("측위", "L1 Zone + L2 Gate (cm급·UWB 아님) · 이탈 알림 ≤15s 목표"),
-        ("문서", "PET-Aeye_넓은공간_BLE개체추적_초안.md v0.3 · assets/ble_tracking/"),
+        ("문서", "PET-Aeye_넓은공간_BLE개체추적_초안.md v0.4 · assets/ble_tracking/"),
     ]
     table(s, MX, 1.7, cols, rows, 0.58, body=12)
     text(s, MX, 5.7, CW, 1.0, [
-        ("앱: bind/unbind · zone.enter/exit · geofence.breach · gw.offline · 비전 조인(stay_id).", 12, INK, False, 4),
-        ("구역당 BOM 약 496만원 가정(태그·케이스·GW·함체·PoE·데스크). 카메라 CAPEX 별도.", 11, GRAY, False),
+        ("앱: bind/unbind · zone · geofence · crowd/slot · dock.return · play.recap · 비전 조인.", 12, INK, False, 4),
+        ("구역당 BOM 약 576만원 가정(+회수 도킹 P1). 카메라 CAPEX 별도.", 11, GRAY, False),
     ])
 
     page += 1
     s = new_slide(prs)
-    frame(s, page, "09 · 넓은 공간 BLE", "BOM · KPI · 이벤트 (v0.3)")
+    frame(s, page, "09 · 넓은 공간 BLE", "BOM · KPI · 이벤트 (v0.4)")
     box(s, MX, 1.7, 3.9, 4.9, SAND)
     text(s, MX + 0.2, 1.85, 3.5, 0.35, [("구역당 BOM", 14, ACCENT, True)])
     text(s, MX + 0.2, 2.35, 3.5, 4.0, [
         ("· MWB01 ×80", 12, INK, False, 4),
         ("· 관통 케이스 ×120", 12, INK, False, 4),
-        ("· MKGW1-BW ×5", 12, INK, False, 4),
-        ("· IP65 함체·폴·PoE", 12, INK, False, 4),
-        ("· 데스크 키트 · 목줄", 12, INK, False, 4),
-        ("· 합 ≈ 496만원", 12, ACCENT, True),
+        ("· MKGW1-BW ×5 · 함체·PoE", 12, INK, False, 4),
+        ("· 데스크 · 목줄", 12, INK, False, 4),
+        ("· 회수 도킹함 (P1)", 12, INK, False, 4),
+        ("· 합 ≈ 576만원", 12, ACCENT, True),
     ])
     box(s, 4.85, 1.7, 3.9, 4.9, ACCENT_WASH)
     text(s, 5.05, 1.85, 3.5, 0.35, [("KPI (MVP)", 14, ACCENT, True)])
@@ -742,12 +742,43 @@ def build():
     box(s, 9.0, 1.7, 3.63, 4.9, SAND)
     text(s, 9.2, 1.85, 3.25, 0.35, [("도메인 이벤트", 14, ACCENT, True)])
     text(s, 9.2, 2.35, 3.25, 4.0, [
-        ("· ble.tag.bind/unbind", 11, INK, False, 4),
-        ("· ble.zone.enter/exit", 11, INK, False, 4),
-        ("· ble.geofence.breach", 11, INK, False, 4),
-        ("· ble.tag.missing", 11, INK, False, 4),
-        ("· ble.gw.offline", 11, INK, False, 4),
+        ("· bind/unbind · zone", 11, INK, False, 4),
+        ("· geofence · missing", 11, INK, False, 4),
+        ("· play.crowd / slot", 11, INK, False, 4),
+        ("· dock.return", 11, INK, False, 4),
+        ("· play.recap.ready", 11, INK, False, 4),
         ("· 비전 조인 stay_id", 11, INK, False),
+    ])
+
+    page += 1
+    s = new_slide(prs)
+    frame(s, page, "09 · 넓은 공간 BLE", "v0.4 제품 — 혼잡 슬롯 · 도킹 · 리캡")
+    box(s, MX, 1.7, 3.9, 4.9, SAND)
+    text(s, MX + 0.2, 1.85, 3.5, 0.4, [("혼잡 슬롯", 14, ACCENT, True)])
+    text(s, MX + 0.2, 2.4, 3.5, 3.9, [
+        ("존 재실 vs cap", 12, INK, True, 4),
+        ("open / limited / full", 12, INK, False, 4),
+        ("스태프 입장 신호등", 12, INK, False, 4),
+        ("보호자 대기 안내(선택)", 12, INK, False, 4),
+        ("과밀·싸움 예방", 12, GRAY, False),
+    ])
+    box(s, 4.85, 1.7, 3.9, 4.9, ACCENT_WASH)
+    text(s, 5.05, 1.85, 3.5, 0.4, [("회수 도킹함", 14, ACCENT, True)])
+    text(s, 5.05, 2.4, 3.5, 3.9, [
+        ("게이트 옆 NFC 슬롯", 12, INK, True, 4),
+        ("꽂으면 dock.return", 12, INK, False, 4),
+        ("확인 후 자동 unbind", 12, INK, False, 4),
+        ("소독 큐 · 미반납 감소", 12, INK, False, 4),
+        ("MVP는 수동 회수 가능", 12, GRAY, False),
+    ])
+    box(s, 9.0, 1.7, 3.63, 4.9, SAND)
+    text(s, 9.2, 1.85, 3.25, 0.4, [("플레이 리캡", 14, ACCENT, True)])
+    text(s, 9.2, 2.4, 3.25, 3.9, [
+        ("존 체류 시간 요약", 12, INK, True, 4),
+        ("게이트·하이라이트", 12, INK, False, 4),
+        ("CareReport 카드", 12, INK, False, 4),
+        ("졸업 리포트 섹션", 12, INK, False, 4),
+        ("비의료·관찰 톤", 12, GRAY, False),
     ])
 
     page += 1
