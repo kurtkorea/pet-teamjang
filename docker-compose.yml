@@ -55,7 +55,7 @@ services:
       REDIS_URL: redis://redis:6379
       DATABASE_URL: postgresql://pet_ai:pet_ai@postgres:5432/pet_ai
       MODEL_PATH: /models/yolo11n-pose.pt
-      DOG_MODEL_PATH: /models/yolo11n.pt
+      DOG_MODEL_PATH: /models/dog-best.pt
       DEVICE: ${AI_DEVICE:-cuda}
       RTSP_URL: ${RTSP_URL:?set RTSP_URL in .env}
     ports:

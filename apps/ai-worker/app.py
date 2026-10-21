@@ -122,9 +122,12 @@ def get_model():
     if model is None:
         from ultralytics import YOLO
         model = YOLO(MODEL_PATH)
-        if resolve_device().startswith("cuda"):
-            model.predict(source=np.zeros((540, 960, 3), dtype=np.uint8), device=resolve_device(), imgsz=640, half=True, verbose=False)
     return model
+
+
+def _use_half(device: str) -> bool:
+    # Ada laptop + 일부 드라이버에서 half warmup/추론이 멈추는 경우가 있어 기본은 FP32.
+    return os.getenv("TORCH_HALF", "0") in {"1", "true", "TRUE", "yes"}
 
 def get_dog_model():
     global dog_model
@@ -132,6 +135,18 @@ def get_dog_model():
         from ultralytics import YOLO
         dog_model = YOLO(DOG_MODEL_PATH)
     return dog_model
+
+
+def dog_class_ids(detector) -> list[int]:
+    """COCO dog=16, dog-detect 미세조정은 보통 class 0=dog."""
+    names = getattr(detector, "names", None) or {}
+    items = names.items() if isinstance(names, dict) else enumerate(names)
+    ids = [int(i) for i, name in items if str(name).lower() == "dog"]
+    if ids:
+        return ids
+    if len(names) == 1:
+        return [0]
+    return [16]
 
 def behavior_for(track_id: int, center: tuple[float, float], previous: dict[int, tuple[float, float]], box: list[float] | None = None) -> str:
     old = previous.get(track_id)
@@ -181,7 +196,6 @@ def save_events(events: list[dict[str, Any]]) -> None:
         connection.commit()
 
 def run_detection(request: InferenceRequest) -> dict[str, Any]:
-    detector = get_model()
     dog_detector = get_dog_model()
     device = resolve_device()
     capture = cv2.VideoCapture(request.frame_path)
@@ -191,7 +205,18 @@ def run_detection(request: InferenceRequest) -> dict[str, Any]:
     behaviors: list[dict[str, Any]] = []
     previous: dict[int, tuple[float, float]] = {}
     frame_number = 0
-    for result in detector.track(source=request.frame_path, stream=True, persist=True, tracker="bytetrack.yaml", classes=[16], device=device, **inference_config, half=device.startswith("cuda"), verbose=False):
+    dog_classes = dog_class_ids(dog_detector)
+    for result in dog_detector.track(
+        source=request.frame_path,
+        stream=True,
+        persist=True,
+        tracker="bytetrack.yaml",
+        classes=dog_classes,
+        device=device,
+        **dog_inference_config,
+        half=_use_half(device),
+        verbose=False,
+    ):
         frame_number += 1
         if frame_number % max(request.sample_every, 1) != 0:
             continue
@@ -212,13 +237,15 @@ def run_detection(request: InferenceRequest) -> dict[str, Any]:
         requests.post(f"{os.getenv('API_URL', 'http://api:3000')}/internal/detections", json={"camera_id": request.camera_id, "detections": detections, "behaviors": behaviors}, timeout=2)
     except requests.RequestException:
         pass
-    return {"detections": detections, "behaviors": behaviors, "frames_analyzed": frame_number, "device": device}
+    return {"detections": detections, "behaviors": behaviors, "frames_analyzed": frame_number, "device": device, "dog_classes": dog_classes, "dog_model": DOG_MODEL_PATH}
 
 def live_detection_loop(camera_id: str) -> None:
     global live_running, latest_jpeg
     detector = get_model()
     dog_detector = get_dog_model()
     device = resolve_device()
+    dog_classes = dog_class_ids(dog_detector)
+    print(f"live: dog_model={DOG_MODEL_PATH} dog_classes={dog_classes} names={getattr(dog_detector, 'names', {})}", flush=True)
     previous: dict[int, tuple[float, float]] = {}
     while not live_stop.is_set():
         width, height = 960, 540
@@ -270,8 +297,8 @@ def live_detection_loop(camera_id: str) -> None:
                 continue
             last_inference = now
             frame_number += 1
-            human_result = detector.track(source=frame, persist=True, tracker="bytetrack.yaml", classes=[0], device=device, **inference_config, half=device.startswith("cuda"), verbose=False)[0]
-            dog_result = dog_detector.track(source=frame, persist=True, tracker="bytetrack.yaml", classes=[16], device=device, **dog_inference_config, half=device.startswith("cuda"), verbose=False)[0]
+            human_result = detector.track(source=frame, persist=True, tracker="bytetrack.yaml", classes=[0], device=device, **inference_config, half=_use_half(device), verbose=False)[0]
+            dog_result = dog_detector.track(source=frame, persist=True, tracker="bytetrack.yaml", classes=dog_classes, device=device, **dog_inference_config, half=_use_half(device), verbose=False)[0]
             detections: list[dict[str, Any]] = []
             boxes = human_result.boxes
             raw_class_ids: list[int] = []

@@ -24,6 +24,31 @@ def nvidia_smi_line() -> str:
     return output.strip()
 
 
+def _parse_sm(token: str) -> tuple[int, int] | None:
+    for prefix in ("sm_", "compute_"):
+        if token.startswith(prefix):
+            digits = token[len(prefix) :]
+            if digits.isdigit() and len(digits) >= 2:
+                return int(digits[:-1]), int(digits[-1])
+    return None
+
+
+def _arch_supported(device_major: int, device_minor: int, compiled: set[str]) -> bool:
+    """공식 PyTorch 휠은 Ada(sm_89)를 목록에 넣지 않고 sm_86/sm_80으로 돌립니다."""
+    exact = f"sm_{device_major}{device_minor}"
+    if exact in compiled or f"compute_{device_major}{device_minor}" in compiled:
+        return True
+    for token in compiled:
+        parsed = _parse_sm(token)
+        if parsed is None:
+            continue
+        major, minor = parsed
+        # 같은 major에서 같거나 낮은 minor면 SASS 호환(예: sm_89 ← sm_86).
+        if major == device_major and minor <= device_minor:
+            return True
+    return False
+
+
 def _arch_ready(torch_module) -> tuple[bool, str]:
     if not torch_module.cuda.is_available():
         return False, "CUDA를 사용할 수 없습니다. NVIDIA 드라이버 설치 여부를 확인하세요."
@@ -34,7 +59,7 @@ def _arch_ready(torch_module) -> tuple[bool, str]:
     props = torch_module.cuda.get_device_properties(0)
     vram_gb = props.total_memory / (1024**3)
     summary = f"{name} | {arch} | {vram_gb:.1f} GB | torch {torch_module.__version__}"
-    if arch not in compiled and f"compute_{major}{minor}" not in compiled:
+    if not _arch_supported(major, minor, compiled):
         supported = ", ".join(sorted(compiled)) or "(없음)"
         return False, (
             f"{summary}\n"

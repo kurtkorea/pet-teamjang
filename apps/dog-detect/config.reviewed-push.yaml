@@ -1,0 +1,54 @@
+# 경로는 이 파일 위치(apps/dog-detect) 기준입니다.
+
+paths:
+  videos: data/videos
+  autolabel: data/reviewed_push
+  reviewed: data/reviewed
+  runs: runs
+
+detect:
+  model: yolo11n.pt
+  class_name: dog
+  conf: 0.40
+  iou: 0.50
+  imgsz: 640
+  # 1초에 한 프레임을 후보로 뽑습니다.
+  sample_fps: 1
+  # 64x64 평균 밝기 차이가 이 값보다 작으면 추론을 건너뜁니다. 0이면 매 후보를 추론합니다.
+  min_frame_diff: 2.5
+  # 화면이 거의 안 변해도 이 간격(초)마다 한 번은 추론합니다. 자는 강아지를 남기기 위함입니다.
+  max_gap_seconds: 5
+  device: "0"
+  # true면 강아지가 없는 프레임도 빈 라벨로 저장합니다.
+  save_empty: false
+  # 프레임 면적 대비 박스 면적. 이보다 작은 박스는 버립니다.
+  min_box_area: 0.0005
+  # 영상 하나당 저장 상한. 0이면 제한 없음.
+  max_frames_per_video: 0
+  batch: 8
+  jpeg_quality: 90
+
+cvat:
+  host: http://localhost:8080
+  username: admin
+  project_name: pet-dog-detect
+  label: dog
+  task_prefix: dog-reviewed
+  # 한 태스크에 넣는 이미지 수. CVAT 업로드 한도를 넘기지 않도록 나눕니다.
+  chunk_size: 400
+
+train:
+  model: yolo11n.pt
+  epochs: 100
+  imgsz: 640
+  # 이 PC는 RTX 5070 Laptop 8GB입니다. 배치 16은 그 메모리 기준입니다.
+  # 데스크톱 RTX 5070(12GB)이면 32, 자동은 -1.
+  batch: 16
+  device: "0"
+  # Windows에서 0이 안전합니다. 0보다 크면 메인 가드 아래에서만 실행하세요.
+  workers: 0
+  amp: true
+  patience: 30
+  cache: false
+  val_ratio: 0.2
+  seed: 42

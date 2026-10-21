@@ -22,7 +22,7 @@ COCO로 학습된 `yolo11n.pt`의 `dog` 클래스가 1차 박스입니다. 호�
 - CVAT용 Docker Desktop
 - 별도 CUDA 툴킷은 필요 없습니다. PyTorch 휠에 런타임이 들어 있습니다.
 
-RTX 5070은 Blackwell이라 PyTorch 빌드에 `sm_120`이 있어야 합니다. `ultralytics`가 가져온 PyTorch에 그 아키텍처가 없으면 `gpu --fix`가 CUDA 12.8 휠로 바꿉니다.
+RTX 5070은 Blackwell이라 PyTorch 빌드에 `sm_120`이 있어야 합니다. `ultralytics`가 가져온 PyTorch에 그 아키텍처가 없으면 `gpu --fix`가 CUDA 12.8 휠로 바꿉니다. Ada(RTX 40xx, `sm_89`)는 공식 휠 목록에 `sm_89`가 없어도 `sm_86`으로 동작합니다.
 
 ## 설치
 
