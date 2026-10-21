@@ -77,7 +77,10 @@ function App() {
   const [humanCfg, setHumanCfg] = useState<InferenceCfg>(defaultHuman);
   const [dogCfg, setDogCfg] = useState<InferenceCfg>(defaultDog);
   const [size, setSize] = useState({ width: 960, height: 540 });
+  const [streamKey, setStreamKey] = useState(() => Date.now());
   const api = `${location.protocol}//${location.hostname}:3000`;
+  const streamSrc = `${location.protocol}//${location.hostname}:8001/stream?t=${streamKey}`;
+  const reloadStream = () => setStreamKey(Date.now());
 
   useEffect(() => {
     const w = new WebSocket(
@@ -136,6 +139,8 @@ function App() {
     post("/api/v1/inference/config", { target, ...cfg });
   const toggle = async () => {
     await post(`/api/v1/live/${live ? "stop" : "start"}`);
+    if (live) setDs([]);
+    else reloadStream();
     setLive(!live);
   };
   const configure = async (v: boolean) => {
@@ -177,7 +182,13 @@ function App() {
             }
           >
             <div className="viewer">
-              <img id="camera" src={`${api}/api/v1/cameras/tc70-01/stream`} />
+              <img
+                id="camera"
+                key={streamKey}
+                src={streamSrc}
+                alt="CCTV"
+                onError={() => window.setTimeout(reloadStream, 1000)}
+              />
               <canvas ref={c} />
             </div>
             <p>검출 대상: {ds.length}마리</p>

@@ -56,6 +56,11 @@ class CvatSettings:
 
 
 @dataclass(frozen=True)
+class LiveSettings:
+    source: str
+
+
+@dataclass(frozen=True)
 class TrainSettings:
     model: str
     epochs: int
@@ -75,6 +80,7 @@ class AppConfig:
     root: Path
     paths: Paths
     detect: DetectSettings
+    live: LiveSettings
     cvat: CvatSettings
     train: TrainSettings
 
@@ -118,6 +124,7 @@ def load_config(path: Path | None = None) -> AppConfig:
 
     paths_raw = _section(raw, "paths")
     detect_raw = _section(raw, "detect")
+    live_raw = _section(raw, "live")
     cvat_raw = _section(raw, "cvat")
     train_raw = _section(raw, "train")
 
@@ -153,6 +160,9 @@ def load_config(path: Path | None = None) -> AppConfig:
             max_frames_per_video=int(detect_raw.get("max_frames_per_video", 0)),
             batch=int(detect_raw.get("batch", 8)),
             jpeg_quality=int(detect_raw.get("jpeg_quality", 90)),
+        ),
+        live=LiveSettings(
+            source=str(live_raw.get("source", "rtsp://techfinai.iptime.org/stream1")),
         ),
         cvat=CvatSettings(
             host=host.rstrip("/"),

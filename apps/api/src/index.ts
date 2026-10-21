@@ -113,6 +113,10 @@ app.get("/api/v1/cameras/:cameraId/stream", async (request, reply) => {
   const response = await fetch(`${aiWorkerUrl}/stream`);
   if (!response.ok || !response.body) return reply.code(502).send({ error: "AI worker stream unavailable" });
   reply.header("content-type", response.headers.get("content-type") ?? "multipart/x-mixed-replace; boundary=frame");
+  reply.header("cache-control", "no-cache, no-store, must-revalidate");
+  reply.header("pragma", "no-cache");
+  reply.header("expires", "0");
+  reply.header("connection", "keep-alive");
   return reply.send(response.body);
 });
 

@@ -7,7 +7,7 @@ paths:
   runs: runs
 
 detect:
-  model: yolo11n.pt
+  model: runs/dog-yolo11n/weights/best.pt
   class_name: dog
   conf: 0.40
   iou: 0.50
@@ -27,6 +27,9 @@ detect:
   max_frames_per_video: 0
   batch: 8
   jpeg_quality: 90
+
+live:
+  source: rtsp://techfinai.iptime.org/stream1
 
 cvat:
   host: http://localhost:8080

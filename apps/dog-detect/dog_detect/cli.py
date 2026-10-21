@@ -22,6 +22,13 @@ def _build_parser() -> argparse.ArgumentParser:
     detect = commands.add_parser("detect", parents=[common], help="영상에서 강아지를 탐지하고 라벨을 저장합니다.")
     detect.add_argument("--video", type=Path, default=None, help="영상 파일 또는 폴더. 기본은 data/videos")
 
+    live = commands.add_parser("live", parents=[common], help="RTSP CCTV를 학습 모델로 실시간 탐지합니다.")
+    live.add_argument(
+        "--source",
+        default=None,
+        help="RTSP 주소 또는 영상 파일. 기본은 config.yaml의 live.source",
+    )
+
     commands.add_parser("cvat-push", parents=[common], help="자동 라벨을 CVAT 태스크로 올립니다.")
 
     pull = commands.add_parser("cvat-pull", parents=[common], help="CVAT 검수본을 학습 폴더로 내려받습니다.")
@@ -113,6 +120,10 @@ def run(argv: list[str] | None = None) -> int:
             from dog_detect.detect import run_detect
 
             run_detect(cfg, args.video)
+        elif args.command == "live":
+            from dog_detect.live import run_live
+
+            run_live(cfg, args.source)
         elif args.command == "cvat-push":
             from dog_detect.cvat_io import push_autolabels
 

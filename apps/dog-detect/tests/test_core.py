@@ -151,7 +151,8 @@ class ConfigTest(unittest.TestCase):
 
         cfg = load_config(default_config_path())
         self.assertEqual(cfg.detect.class_name, "dog")
-        self.assertEqual(cfg.detect.model, "yolo11n.pt")
+        self.assertEqual(cfg.detect.model, "runs/dog-yolo11n/weights/best.pt")
+        self.assertEqual(cfg.live.source, "rtsp://techfinai.iptime.org/stream1")
         self.assertEqual(cfg.train.batch, 16)
         self.assertEqual(cfg.cvat.label, "dog")
         self.assertEqual(cfg.paths.videos.name, "videos")

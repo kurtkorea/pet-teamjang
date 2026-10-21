@@ -275,8 +275,7 @@ def live_detection_loop(camera_id: str) -> None:
         last_publish = 0.0
         last_db_save = 0.0
         last_inference = 0.0
-        last_dog_detections: list[dict[str, Any]] = []
-        dog_missing_frames = 0
+        had_detections = False
         while not live_stop.is_set():
             with capture_lock:
                 source_frame = latest_source[0]
@@ -315,18 +314,11 @@ def live_detection_loop(camera_id: str) -> None:
                     detections.append({"camera_id": camera_id, "dog_id": f"{label}_{track_id:02d}", "label": label, "event_type": f"{label}.detected", "behavior": behavior, "confidence": float(confidence), "frame_number": frame_number, "bbox": box, "track_id": track_id, "metadata": "{}"})
             dog_boxes = dog_result.boxes
             if dog_boxes is not None and len(dog_boxes) > 0:
-                dog_missing_frames = 0
                 dog_ids = dog_boxes.id.int().cpu().tolist() if dog_boxes.id is not None else list(range(len(dog_boxes)))
                 for track_id, box, confidence in zip(dog_ids, dog_boxes.xyxy.cpu().tolist(), dog_boxes.conf.cpu().tolist()):
                     x1, y1, x2, y2 = box
                     behavior = behavior_for(1000 + track_id, ((x1 + x2) / 2, (y1 + y2) / 2), previous, box)
                     detections.append({"camera_id": camera_id, "dog_id": f"dog_{track_id:02d}", "label": "dog", "event_type": "dog.detected", "behavior": behavior, "confidence": float(confidence), "frame_number": frame_number, "bbox": box, "track_id": 1000 + track_id, "metadata": "{}"})
-                last_dog_detections = [item.copy() for item in detections if item.get("label") == "dog"]
-            elif last_dog_detections and dog_missing_frames < 3:
-                dog_missing_frames += 1
-                detections.extend(item | {"frame_number": frame_number, "metadata": '{"smoothed":true}'} for item in last_dog_detections)
-            else:
-                dog_missing_frames = 0
             if frame_number % 30 == 0:
                 raw_count = (len(boxes) if boxes is not None else 0) + (len(dog_boxes) if dog_boxes is not None else 0)
                 dog_conf = dog_boxes.conf.cpu().tolist() if dog_boxes is not None and len(dog_boxes) > 0 else []
@@ -342,7 +334,9 @@ def live_detection_loop(camera_id: str) -> None:
                     except Exception as error: print(f"auto-track PTZ error: {error}", flush=True)
             payload = {"camera_id": camera_id, "detections": detections, "behaviors": [{"dog_id": d["dog_id"], "behavior": d["behavior"], "frame_number": frame_number} for d in detections], "device": device, "live": True, "source_width": width, "source_height": height, "auto_track": auto_track}
             now = time.monotonic()
-            if now - last_publish >= 0.4:
+            became_empty = had_detections and not detections
+            had_detections = bool(detections)
+            if now - last_publish >= 0.4 or became_empty:
                 last_publish = now
                 if now - last_db_save >= 2.0:
                     last_db_save = now
@@ -386,22 +380,38 @@ def live_stop_endpoint() -> dict[str, str]:
     with live_lock:
         if not (live_thread and live_thread.is_alive()):
             live_running = False
+    try:
+        redis_client.publish("pet:detections", json.dumps({"camera_id": "tc70-01", "detections": [], "behaviors": [], "live": False}))
+    except redis.RedisError:
+        pass
     return {"status": "stopped"}
 
 def mjpeg_stream():
     global latest_jpeg
     while True:
         with frame_condition:
-            frame_condition.wait(timeout=2)
             jpeg = latest_jpeg
+            if jpeg is None:
+                frame_condition.wait(timeout=2)
+                jpeg = latest_jpeg
         if jpeg:
             yield b"--frame\r\nContent-Type: image/jpeg\r\nContent-Length: " + str(len(jpeg)).encode() + b"\r\n\r\n" + jpeg + b"\r\n"
+        with frame_condition:
+            frame_condition.wait(timeout=0.2)
 
 @app.get("/stream")
 def stream():
     if not live_running:
         live_start()
-    return StreamingResponse(mjpeg_stream(), media_type="multipart/x-mixed-replace; boundary=frame")
+    return StreamingResponse(
+        mjpeg_stream(),
+        media_type="multipart/x-mixed-replace; boundary=frame",
+        headers={
+            "Cache-Control": "no-cache, no-store, must-revalidate",
+            "Pragma": "no-cache",
+            "Expires": "0",
+        },
+    )
 
 @app.post("/ptz/move")
 def move_ptz(request: PTZRequest) -> dict[str, str]:
