@@ -1,0 +1,47 @@
+# MaixCAM2에서 모은 Detect 이미지/CSV → CVAT 검수 → YOLO11n 학습
+
+paths:
+  # MaixCAM 원본 (읽기 전용 소스)
+  maix_root: "F:/dog_db/detect"
+  # 작업용 자동 라벨 (같은 F: 볼륨에 하드링크)
+  autolabel: "F:/dog_db/detect/autolabel"
+  reviewed: data/reviewed
+  runs: runs
+  videos: data/videos
+
+detect:
+  model: yolo11n.pt
+  class_name: dog
+  conf: 0.15
+  iou: 0.45
+  imgsz: 640
+  sample_fps: 1
+  min_frame_diff: 0
+  max_gap_seconds: 5
+  device: "0"
+  save_empty: true
+  min_box_area: 0.0005
+  max_frames_per_video: 0
+  batch: 8
+  jpeg_quality: 90
+
+cvat:
+  host: http://localhost:8080
+  username: admin
+  project_name: maxi-dog-detect
+  label: dog
+  task_prefix: maxi-autolabel
+  chunk_size: 400
+
+train:
+  model: yolo11n.pt
+  epochs: 50
+  imgsz: 640
+  batch: 16
+  device: "0"
+  workers: 0
+  amp: false
+  patience: 30
+  cache: false
+  val_ratio: 0.2
+  seed: 42

@@ -175,8 +175,8 @@
 
 ## 10. 결정 사항
 
-- [x] 스태프 · 보호자 앱: **Flutter** (웹 + 앱 크로스 플랫폼 · Android 우선) — 2026-10-17
-- [x] 보호자 라이브 방식: **WebRTC** (Flutter 3개 플랫폼 공통 지원) — Flutter 결정에 따름
+- [ ] 스태프 · 보호자 앱: **Flutter** (웹 + 앱 크로스 플랫폼 · Android 우선) — 2026-10-17
+- [ ] 보호자 라이브 방식: **WebRTC** (Flutter 3개 플랫폼 공통 지원) — Flutter 결정에 따름
 - [ ] 녹화를 자체 녹화기(ingest-rs)로 갈지, 상용 NVR / VMS를 병행할지 — 개발 부담과 라이선스비 비교
 - [ ] 클라우드 사업자: NCP vs AWS 서울 리전
 - [ ] 관리자 웹: React 유지 vs Flutter Web 통일 (P1 이후 판단)
