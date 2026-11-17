@@ -1,0 +1,25 @@
+[project]
+name = "maxi-dog-detect"
+version = "0.1.0"
+description = "MaixCAM2 Detect 이미지/CSV를 CVAT로 올려 검수하고 YOLO11n을 학습합니다."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "Pillow>=10.0",
+    "ultralytics>=8.3.160",
+    "opencv-python>=4.10",
+    "pyyaml>=6.0",
+    "cvat-sdk>=2.40",
+    "python-dotenv>=1.0",
+    "tqdm>=4.66",
+]
+
+[project.scripts]
+maxi-dog-detect = "maxi_dog_detect.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["maxi_dog_detect*"]

@@ -29,3 +29,13 @@ apps/dog-detect/data/videos/*
 !apps/dog-detect/data/videos/.gitkeep
 apps/dog-detect/data/reviewed/raw/
 apps/dog-detect/data/autolabel/_cvat/
+
+# maxi-dog-detect (MaixCAM2)
+apps/maxi-dog-detect/.env
+apps/maxi-dog-detect/.venv/
+apps/maxi-dog-detect/**/__pycache__/
+apps/maxi-dog-detect/*.egg-info/
+apps/maxi-dog-detect/**/*.cache
+apps/maxi-dog-detect/runs/**/*.log
+apps/maxi-dog-detect/runs/**/*.err
+apps/maxi-dog-detect/runs/**/*.xlsx
